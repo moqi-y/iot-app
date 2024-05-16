@@ -60,6 +60,7 @@ const bottomInfo = ref(['通用场景']);
 	justify-content: center;
 	padding: 0 20px 20px 20px;
 	background-color: #f5f5f5;
+	height: 100vh;
 }
 
 .top-nav {
@@ -117,7 +118,6 @@ const bottomInfo = ref(['通用场景']);
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
-	margin-top: 100px;
 	margin-bottom: 20px;
 }
 
