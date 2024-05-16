@@ -1,69 +1,69 @@
 <template>
-<view>
+	<view>
 
-	<view class="head">
-		<view class="info">
-			<view class="user">
-				<image src="/static/logo.png"></image>
-				<view class="name"><text>niew</text><text>ID: 9527</text></view>
+		<view class="head">
+			<view class="info">
+				<view class="user">
+					<image src="/static/logo.png"></image>
+					<view class="name"><text>niew</text><text>ID: 9527</text></view>
+				</view>
+				<view class="btn">分享店铺</view>
 			</view>
-			<view class="btn">分享店铺</view>
+		</view>
+		<view class="menu-box">
+			<view class="region">
+				<view class="title">待处理</view>
+				<view class="menu-row">
+					<view class="cell">
+						<view class="count">33</view>
+						<view class="name">待付款</view>
+					</view>
+					<view class="cell">
+						<view class="count">12</view>
+						<view class="name">待发货</view>
+					</view>
+					<view class="cell">
+						<view class="count">53</view>
+						<view class="name">待提货</view>
+					</view>
+				</view>
+			</view>
+			<view class="region">
+				<view class="title">店铺数据</view>
+				<view class="menu-row">
+					<view class="cell">
+						<view class="count">122</view>
+						<view class="name">今日访客</view>
+					</view>
+					<view class="cell">
+						<view class="count">23</view>
+						<view class="name">今日订单</view>
+					</view>
+					<view class="cell">
+						<view class="count">888</view>
+						<view class="name">今日收入</view>
+					</view>
+				</view>
+			</view>
+			<view class="region" style="margin-bottom: 120rpx;">
+				<view class="title">我的商品</view>
+				<view class="menu-row">
+					<view class="cell">
+						<view class="count">54</view>
+						<view class="name">销售中</view>
+					</view>
+					<view class="cell">
+						<view class="count">2</view>
+						<view class="name">待上架</view>
+					</view>
+					<view class="cell">
+						<view class="count" style="color:#ff7962;font-weight:1000;">＋</view>
+						<view class="name">新增商品</view>
+					</view>
+				</view>
+			</view>
 		</view>
 	</view>
-	<view class="menu-box">
-		<view class="region">
-			<view class="title">待处理</view>
-			<view class="menu-row">
-				<view class="cell">
-					<view class="count">33</view>
-					<view class="name">待付款</view>
-				</view>
-				<view class="cell">
-					<view class="count">12</view>
-					<view class="name">待发货</view>
-				</view>
-				<view class="cell">
-					<view class="count">53</view>
-					<view class="name">待提货</view>
-				</view>
-			</view>
-		</view>
-		<view class="region">
-			<view class="title">店铺数据</view>
-			<view class="menu-row">
-				<view class="cell">
-					<view class="count">122</view>
-					<view class="name">今日访客</view>
-				</view>
-				<view class="cell">
-					<view class="count">23</view>
-					<view class="name">今日订单</view>
-				</view>
-				<view class="cell">
-					<view class="count">888</view>
-					<view class="name">今日收入</view>
-				</view>
-			</view>
-		</view>
-		<view class="region">
-			<view class="title">我的商品</view>
-			<view class="menu-row">
-				<view class="cell">
-					<view class="count">54</view>
-					<view class="name">销售中</view>
-				</view>
-				<view class="cell">
-					<view class="count">2</view>
-					<view class="name">待上架</view>
-				</view>
-				<view class="cell">
-					<view class="count" style="color:#ff7962;font-weight:1000;">＋</view>
-					<view class="name">新增商品</view>
-				</view>
-			</view>
-		</view>
-	</view>
-</view>
 </template>
 <script>
 	export default {
@@ -78,7 +78,7 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	page {
 		background-color: #f8f8f8;
 	}
@@ -141,13 +141,13 @@
 		position: absolute;
 		top: 300rpx;
 		width: 100%;
+		margin-bottom: 120rpx;
 	}
 
 	.region {
 		background-color: #FFFFFF;
 		margin: 30rpx;
 		border-radius: 10rpx;
-		margin-bottom: 120rpx;
 	}
 
 	.region .title {
