@@ -4,7 +4,7 @@
 		<view class="head">
 			<view class="info">
 				<view class="user">
-					<image src="/static/logo.png"></image>
+					<image src="/static/images/user.jpg" mode="aspectFill"></image>
 					<view class="name"><text>niew</text><text>ID: 9527</text></view>
 				</view>
 				<view class="btn">
@@ -15,53 +15,53 @@
 		</view>
 		<view class="menu-box">
 			<view class="region">
-				<view class="title">待处理</view>
+				<view class="title">我的设备</view>
 				<view class="menu-row">
 					<view class="cell">
-						<view class="count">33</view>
-						<view class="name">待付款</view>
+						<view class="count online">33</view>
+						<view class="name">在线设备</view>
 					</view>
 					<view class="cell">
-						<view class="count">12</view>
-						<view class="name">待发货</view>
+						<view class="count offline">12</view>
+						<view class="name">离线设备</view>
 					</view>
 					<view class="cell">
-						<view class="count">53</view>
-						<view class="name">待提货</view>
+						<view class="count warning">53</view>
+						<view class="name">异常设备</view>
 					</view>
 				</view>
 			</view>
 			<view class="region">
-				<view class="title">店铺数据</view>
+				<view class="title">我的终端</view>
 				<view class="menu-row">
 					<view class="cell">
-						<view class="count">122</view>
-						<view class="name">今日访客</view>
+						<view class="count online">122</view>
+						<view class="name">在线终端</view>
 					</view>
 					<view class="cell">
-						<view class="count">23</view>
-						<view class="name">今日订单</view>
+						<view class="count offline">2</view>
+						<view class="name">离线终端</view>
 					</view>
 					<view class="cell">
-						<view class="count">888</view>
-						<view class="name">今日收入</view>
+						<view class="count warning">5</view>
+						<view class="name">异常终端</view>
 					</view>
 				</view>
 			</view>
 			<view class="region" style="margin-bottom: 120rpx;">
-				<view class="title">我的商品</view>
+				<view class="title">我的网络</view>
 				<view class="menu-row">
 					<view class="cell">
 						<view class="count">54</view>
-						<view class="name">销售中</view>
+						<view class="name">广域网</view>
 					</view>
 					<view class="cell">
 						<view class="count">2</view>
-						<view class="name">待上架</view>
+						<view class="name">局域网</view>
 					</view>
 					<view class="cell">
 						<view class="count" style="color:#ff7962;font-weight:1000;">＋</view>
-						<view class="name">新增商品</view>
+						<view class="name">新增网络</view>
 					</view>
 				</view>
 			</view>
@@ -187,5 +187,17 @@
 		font-size: 30rpx;
 		line-height: 100rpx;
 		color: #8a8a8a;
+	}
+	.online{
+		color: #1ec33ac1;
+		font-weight: bold;
+	}
+	.offline{
+		color: red;
+		font-weight: bold;
+	}
+	.warning{
+		color: #f08008;
+		font-weight: bold;
 	}
 </style>

@@ -1,5 +1,13 @@
 <template>
 	<view>
+		  <!-- 顶部导航栏 -->
+	  <!-- <view class="top-nav">
+		<text class="time">18:10</text>
+		<view class="nav-items">
+		  <text class="nav-item" v-for="(item, index) in navItems" :key="index">{{ item }}</text>
+		</view>
+		<uni-icons type="scan" size="28" color="#1296db"></uni-icons>
+	  </view> -->
 		<view class="charts-box">
 			<qiun-data-charts type="line" :opts="opts" :chartData="chartData" />
 		</view>
