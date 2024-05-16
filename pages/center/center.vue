@@ -7,7 +7,10 @@
 					<image src="/static/logo.png"></image>
 					<view class="name"><text>niew</text><text>ID: 9527</text></view>
 				</view>
-				<view class="btn">分享店铺</view>
+				<view class="btn">
+					<uni-icons type="notification" size="28" color="#1296db"></uni-icons>
+					消息中心
+					</view>
 			</view>
 		</view>
 		<view class="menu-box">
@@ -88,6 +91,8 @@
 		width: 100%;
 		height: 400rpx;
 		background-color: #ff7962;
+		background-image: url("/static/images/bird.jpg");
+		background-size: cover;
 	}
 
 	.head .info {
@@ -135,6 +140,9 @@
 		line-height: 80rpx;
 		border-top-left-radius: 10rpx;
 		border-bottom-left-radius: 10rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 	.menu-box {

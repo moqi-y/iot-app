@@ -15,4 +15,11 @@
 
 <style>
 	/*每个页面公共css */
+	@font-face {
+		font-family: pingfang;
+		src: url("/static/fonts/PingFang SC Thin.otf");
+	}
+	*{
+		font-family: 'pingfang';
+	}
 </style>
