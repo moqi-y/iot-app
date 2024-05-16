@@ -20,6 +20,26 @@
 			}
 		}
 	],
+	"tabBar": {
+		"color": "#515151",
+		"selectedColor": "#1296db",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [
+			{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/icon/device.png",
+				"selectedIconPath": "static/icon/device-active.png",
+				"text": "设备"
+			},
+			{
+				"iconPath": "static/icon/center.png",
+				"selectedIconPath": "static/icon/center-active.png",
+				"pagePath": "pages/center/center",
+				"text": "个人中心"
+			}
+		]
+	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
