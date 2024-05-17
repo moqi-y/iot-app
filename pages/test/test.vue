@@ -4,6 +4,7 @@
 			<qiun-data-charts type="line" :opts="opts" :chartData="chartData" />
 		</view>
 	</view>
+	<button @tap="endMqtt()">断开连接</button>
 </template>
 
 <script setup>
@@ -48,17 +49,25 @@ const getServerData = () => {
 	}, 500);
 }
 
+
 const mqttfun = () => {
 	console.log("mqtt:", mqtt)
 }
 
-const connectUrl = `ws://broker.emqx.io:8083/mqtt`;
+/**
+ * 断开连接
+ */
+const endMqtt=()=>{
+	client.end()
+}
 
+const connectUrl = `ws://broker.emqx.io:8083/mqtt`;
+const clientId = `mqtt_${Math.random().toString(16).slice(3)}`;
 const client = mqtt.connect(connectUrl, {
 	clean: true,
 	connectTimeout: 4000,
 	reconnectPeriod: 1000,
-	clientId: 'emqx_test',
+	clientId: clientId,
 	username: 'emqx_test',
 	password: 'emqx_test'
 })
