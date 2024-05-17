@@ -1,6 +1,15 @@
 {
 	"pages": [
 		{
+			"path" : "pages/login/login",
+			"style" : 
+			{
+				"navigationBarTitleText" : "登录",
+				"enablePullDownRefresh" : false,
+				"navigationStyle":"custom"
+			}
+		},
+		{
 			"path" : "pages/device/device",
 			"style" : 
 			{
@@ -28,7 +37,26 @@
 				"navigationBarTitleText": "测试页面",
 				"enablePullDownRefresh": false
 			}
+		},
+		{
+			"path" : "pages/register/register",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false,
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path" : "pages/check/check",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false,
+				"navigationStyle":"custom"
+			}
 		}
+		
 	],
 	"tabBar": {
 		"color": "#515151",
