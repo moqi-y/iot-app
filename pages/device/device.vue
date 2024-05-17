@@ -1,8 +1,5 @@
 <template>
 	<view class="container">
-		<view class="status_bar">
-			<!-- 这里是状态栏 -->
-		</view>
 		<!-- 顶部导航栏 -->
 		<view class="top-nav">
 			<view class="nav-items">
@@ -61,255 +58,256 @@
 </template>
 
 <script setup>
-	import {
-		onMounted,
-		ref
-	} from 'vue';
-	import DeviceCard from '../../components/DeviceCard.vue';
-	import TerminalCard from '../../components/TerminalCard.vue';
-	import NetCard from '../../components/NetCard.vue';
-	const navItems = ref(['设备中心']);
-	const deviceImages = ref([{
-			name: "摄像头",
-			content: "摄像头工作中",
-			url: "/static/icon/camera-five.svg"
-		},
-		{
-			name: "路由器",
-			content: "路由器工作中",
-			url: "/static/icon/router.svg"
+import {
+	onMounted,
+	ref
+} from 'vue';
+import DeviceCard from '../../components/DeviceCard.vue';
+import TerminalCard from '../../components/TerminalCard.vue';
+import NetCard from '../../components/NetCard.vue';
+const navItems = ref(['设备中心']);
+const deviceImages = ref([{
+	name: "摄像头",
+	content: "摄像头工作中",
+	url: "/static/icon/camera-five.svg"
+},
+{
+	name: "路由器",
+	content: "路由器工作中",
+	url: "/static/icon/router.svg"
+}
+])
+// const menuItems = ref(['快速添加', '新手指南', '发现',]);
+const menuItems = ref([{
+	icon: "plusempty",
+	title: "快速添加"
+},
+{
+	icon: 'videocam',
+	title: '产品'
+},
+	// {
+	// 	icon: "help",
+	// 	title: "新手指南"
+	// },
+	// {
+	// 	icon: "eye",
+	// 	title: "发现"
+	// }
+]);
+
+const items = ref(['设备', '终端', '网络', '更多']);
+const current = ref(0);
+
+const onClickItem = (e) => {
+	current.value = e.currentIndex;
+};
+
+const imageError = (e) => {
+	console.log('图片加载失败', e);
+};
+const bottomInfo = ref(['通用场景']);
+// 获取手机可用高度
+let app_height = ref(0);
+onMounted(() => {
+	uni.getSystemInfo({
+		success: res => {
+			console.log('手机可用高度:' + res.windowHeight * 2 + 'rpx');
+			app_height.value = res.windowHeight * 2;
 		}
-	])
-	// const menuItems = ref(['快速添加', '新手指南', '发现',]);
-	const menuItems = ref([{
-			icon: "plusempty",
-			title: "快速添加"
-		},
-		{
-			icon: 'videocam',
-			title: '产品'
-		},
-		// {
-		// 	icon: "help",
-		// 	title: "新手指南"
-		// },
-		// {
-		// 	icon: "eye",
-		// 	title: "发现"
-		// }
-	]);
-
-	const items = ref(['设备', '终端', '网络', '更多']);
-	const current = ref(0);
-
-	const onClickItem = (e) => {
-		current.value = e.currentIndex;
-	};
-
-	const imageError = (e) => {
-		console.log('图片加载失败', e);
-	};
-	const bottomInfo = ref(['通用场景']);
-	// 获取手机可用高度
-	let app_height = ref(0);
-	onMounted(() => {
-		uni.getSystemInfo({
-			success: res => {
-				console.log('手机可用高度:' + res.windowHeight * 2 + 'rpx');
-				app_height.value = res.windowHeight * 2;
-			}
-		});
-	})
+	});
+})
 </script>
 
 <style scoped>
-	page {
-		background-color: #f5f5f5;
-	}
+page {
+	background-color: #f5f5f5;
+}
 
-	.status_bar {
+/* .status_bar {
 		height: var(--status-bar-height);
 		width: 100%;
 		background: linear-gradient(90deg, #1a9bf0, #1a5df0);
-	}
+	} */
 
-	.container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		padding: 0 20px;
-		height: 100%;
-		overflow: hidden;
-	}
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 0 20px;
+	height: 100%;
+	overflow: hidden;
+}
 
-	.top-nav {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		background: linear-gradient(90deg, #1a9bf0, #1a5df0);
-		height: 70px;
-		width: 100%;
-		border-radius: 10px;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-		width: 100%;
-		position: fixed;
-		top: 0px;
-		z-index: 99999;
-	}
-
-
-	.nav-items {
-		display: flex;
-		margin: 0 10px;
-	}
-
-	.scan-area {
-		width: 60px;
-		height: 50px;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		margin-right: 8px;
-	}
-
-	.scan-icon {
-		margin-bottom: -5px;
-	}
-
-	.scan-text {
-		font-size: 12px !important;
-		color: #fff;
-	}
-
-	.nav-item {
-		margin-right: 20px;
-		font-size: 16px;
-		color: #fff;
-		font-weight: 600;
-	}
-
-	/* 元素最后一个 */
+.top-nav {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: linear-gradient(90deg, #1a9bf0, #1a5df0);
+	height: cale(70px + var(--status-bar-height));
+	width: 100%;
+	border-radius: 10px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	width: 100%;
+	position: fixed;
+	top: 0px;
+	z-index: 99999;
+	padding-top: var(--status-bar-height);
+}
 
 
-	.device-info {
-		width: 100%;
-		display: flex;
-		justify-content: flex-start;
-		margin-top: 90px;
-	}
+.nav-items {
+	display: flex;
+	margin: 0 10px;
+}
 
-	.device-details {
-		width: 80px;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		color: #333;
-		margin: 0 8px;
-	}
+.scan-area {
+	width: 60px;
+	height: 50px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin-right: 8px;
+}
 
-	.device-image {
-		width: 64px;
-		height: 64px;
-		border-radius: 50%;
-	}
+.scan-icon {
+	margin-bottom: -5px;
+}
 
-	.device-name {
-		width: 100%;
-		display: flex;
-		align-items: center;
-		margin-top: 2rpx;
-		margin-left: 4px;
-	}
+.scan-text {
+	font-size: 12px !important;
+	color: #fff;
+}
 
-	.dot {
-		width: 12px;
-		height: 12px;
-		background-color: #1ec33ac1;
-		border-color: #1ec33ac1;
-		border-radius: 50%;
-		margin-left: 4px;
-	}
+.nav-item {
+	margin-right: 20px;
+	font-size: 16px;
+	color: #fff;
+	font-weight: 600;
+}
 
-	.menu-list {
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		/* 创建两列，每列等宽 */
-		gap: 5px;
-		/* 设置网格项目之间的竖向间距为20px */
-		grid-auto-rows: minmax(0, auto);
-		/* 设置网格行的最小高度和最大高度 */
-		padding: 10px;
-		/* 设置容器的内边距为10px */
-		box-sizing: border-box;
-		/* 确保内边距不会增加容器的总宽度 */
-		justify-content: space-between;
-		/* 网格行之间的间距自动平分 */
-	}
+/* 元素最后一个 */
 
-	.menu-item {
-		display: flex;
-		/* 使用弹性盒子布局 */
-		justify-content: center;
-		/* 水平居中 */
-		align-items: center;
-		/* 垂直居中 */
-		padding: 15px 0;
-		background: linear-gradient(45deg, #45e0f0, #679ef0);
-		color: #fff;
-		border-radius: 15px;
-		margin-bottom: 10px;
-		box-shadow: 2px 6px 10px rgba(97, 161, 249, 0.3);
-		width: 170px;
-		height: 50px;
-		margin: 12px;
-	}
 
-	.menu-title {
-		font-size: 20px;
-		font-weight: 500;
-	}
+.device-info {
+	width: 100%;
+	display: flex;
+	justify-content: flex-start;
+	margin-top: 90px;
+}
 
-	.bottom-info {
-		margin-top: 40px;
-		width: 100%;
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-	}
+.device-details {
+	width: 80px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	color: #333;
+	margin: 0 8px;
+}
 
-	.switch-area {
-		width: 95%;
-	}
+.device-image {
+	width: 64px;
+	height: 64px;
+	border-radius: 50%;
+}
 
-	.switch-control ::v-deep .segmented-control__text {
-		font-size: 18px;
-	}
+.device-name {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	margin-top: 2rpx;
+	margin-left: 4px;
+}
 
-	.switch-content {
-		margin-top: 20px;
-		width: 100%;
-		overflow-y: auto;
-		/* max-height: 53vh; */
+.dot {
+	width: 12px;
+	height: 12px;
+	background-color: #1ec33ac1;
+	border-color: #1ec33ac1;
+	border-radius: 50%;
+	margin-left: 4px;
+}
 
-	}
+.menu-list {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	/* 创建两列，每列等宽 */
+	gap: 5px;
+	/* 设置网格项目之间的竖向间距为20px */
+	grid-auto-rows: minmax(0, auto);
+	/* 设置网格行的最小高度和最大高度 */
+	padding: 10px;
+	/* 设置容器的内边距为10px */
+	box-sizing: border-box;
+	/* 确保内边距不会增加容器的总宽度 */
+	justify-content: space-between;
+	/* 网格行之间的间距自动平分 */
+}
 
-	.content-list {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		padding: 10px;
-		margin-bottom: 20px;
-		overflow-y: auto;
-	}
+.menu-item {
+	display: flex;
+	/* 使用弹性盒子布局 */
+	justify-content: center;
+	/* 水平居中 */
+	align-items: center;
+	/* 垂直居中 */
+	padding: 15px 0;
+	background: linear-gradient(45deg, #45e0f0, #679ef0);
+	color: #fff;
+	border-radius: 15px;
+	margin-bottom: 10px;
+	box-shadow: 2px 6px 10px rgba(97, 161, 249, 0.3);
+	width: 170px;
+	height: 50px;
+	margin: 12px;
+}
 
-	.info-item {
-		padding: 10px 20px;
-		background-color: #e0e0e0;
-		border-radius: 20px;
-		font-size: 16px;
-		color: #666;
-		margin: 0 10px;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	}
+.menu-title {
+	font-size: 20px;
+	font-weight: 500;
+}
+
+.bottom-info {
+	margin-top: 40px;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.switch-area {
+	width: 95%;
+}
+
+.switch-control ::v-deep .segmented-control__text {
+	font-size: 18px;
+}
+
+.switch-content {
+	margin-top: 20px;
+	width: 100%;
+	overflow-y: auto;
+	/* max-height: 53vh; */
+
+}
+
+.content-list {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 10px;
+	margin-bottom: 20px;
+	overflow-y: auto;
+}
+
+.info-item {
+	padding: 10px 20px;
+	background-color: #e0e0e0;
+	border-radius: 20px;
+	font-size: 16px;
+	color: #666;
+	margin: 0 10px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 </style>

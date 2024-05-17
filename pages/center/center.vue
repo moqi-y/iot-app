@@ -1,10 +1,7 @@
 <template>
 	<view>
-		<view class="status_bar">
-			<!-- 这里是状态栏 -->
-		</view>
-		<view class="nav-bar">个人中心</view>
 		<view class="head">
+			<view class="nav-bar">个人中心</view>
 			<view class="info">
 				<view class="user">
 					<image src="/static/images/user.jpg" mode="aspectFill"></image>
@@ -89,28 +86,19 @@ page {
 	background-color: #f8f8f8;
 }
 
-.status_bar {
-		height: var(--status-bar-height);
-		width: 100%;
-		opacity: 100%;
-	}
 .nav-bar {
-	width: 70px;
-	text-align: center;
-	position: absolute;
-	z-index: 9999;
-	font-size: 16px;
-	color: #fff;
-	left: 152.5px;
-	top: 20px;
+	width: 100%;
+	display: flex;
+	justify-content: center;
 	font-weight: 600;
+	padding-top: calc(20px + var(--status-bar-height));
+	color: #FFFFFF;
 }
 
 .head {
 	position: relative;
 	width: 100%;
-	height: 400rpx;
-	background-color: #ff7962;
+	height: calc(420rpx + var(--status-bar-height));
 	background-image: url("/static/images/bird.jpg");
 	background-size: cover;
 }
@@ -167,7 +155,7 @@ page {
 
 .menu-box {
 	position: absolute;
-	top: 300rpx;
+	top: cale(300rpx + var(--status-bar-height));
 	width: 100%;
 	margin-bottom: 120rpx;
 }
