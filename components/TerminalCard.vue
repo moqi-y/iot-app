@@ -1,7 +1,7 @@
 <template>
 	<view class="card">
 		<view class="dievice-icon">
-			<image class="device-icon-img" src="/static/icon/浏览器_browser.svg" @error="imageError"></image>
+			<image class="device-icon-img" src="/static/icon/browser.svg" @error="imageError"></image>
 		</view>
 		<view class="device-info">
 			<view class="type-name">默认终端</view>

@@ -1,7 +1,7 @@
 <template>
 	<view class="card">
 		<view class="dievice-icon">
-			<image class="device-icon-img" src="/static/icon/摄像头_camera-five.svg" @error="imageError"></image>
+			<image class="device-icon-img" src="/static/icon/camera-five.svg" @error="imageError"></image>
 		</view>
 		<view class="device-info">
 			<view class="type-name">默认设备</view>

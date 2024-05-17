@@ -1,7 +1,7 @@
 <template>
 	<view class="card">
 		<view class="dievice-icon">
-			<image class="device-icon-img" src="/static/icon/地球仪_earth.svg" @error="imageError"></image>
+			<image class="device-icon-img" src="/static/icon/earth.svg" @error="imageError"></image>
 		</view>
 		<view class="device-info">
 			<view class="type-name">默认网络</view>
@@ -9,7 +9,7 @@
 			<view class="device-status">
 				<view class="tag">
 					网络质量优<view class="dot">
-						<image src="/static/icon/无线网络_wifi.svg" style="width: 10px; height: 10px;"></image>
+						<image src="/static/icon/wifi.svg" style="width: 10px; height: 10px;"></image>
 					</view>
 				</view>
 			</view>
