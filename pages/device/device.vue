@@ -23,32 +23,88 @@
 		<!-- 功能菜单 -->
 		<view class="menu-list">
 			<view class="menu-item" v-for="(item, index) in menuItems" :key="index">
-				<text class="menu-title">{{ item }}</text>
+				<uni-icons :type="item.icon" size="42" color="#1a9bf0" style="margin-right: 6px;"></uni-icons>
+				<text class="menu-title">{{ item.title }}</text>
+			</view>
+		</view>
+		<!-- 切换区域 -->
+		<view class="switch-area">
+			<uni-segmented-control class="switch-control" :current="current" :values="items" @clickItem="onClickItem"
+				styleType="text" activeColor="#1a9bf0"></uni-segmented-control>
+			<view class="switch-content">
+				<view class="content-list" v-show="current === 0">
+					<DeviceCard v-for="(item, index) in deviceImages" :key="index" :device="item"></DeviceCard>
+				</view>
+				<view v-show="current === 1">
+					选项卡2的内容
+				</view>
+				<view v-show="current === 2">
+					选项卡3的内容
+				</view>
+				<view v-show="current === 3">
+				</view>
+				<view v-show="current === 1">
+					选项卡2的内容
+				</view>
+				<view v-show="current === 2">
+					选项卡3的内容
+				</view>
+				<view v-show="current === 3">
+					<!-- 底部信息 -->
+					<view class="bottom-info">
+						<text class="info-item" v-for="(item, index) in bottomInfo" :key="index">{{ item }}</text>
+					</view>
+				</view>
 			</view>
 		</view>
 
-		<!-- 底部信息 -->
-		<view class="bottom-info">
-			<text class="info-item" v-for="(item, index) in bottomInfo" :key="index">{{ item }}</text>
-		</view>
 	</view>
 </template>
 
 <script setup>
 import { ref } from 'vue';
+import DeviceCard from '../../components/DeviceCard.vue';
 
 const navItems = ref(['设备中心']);
 const deviceImages = ref([{
 	name: "摄像头",
 	content: "摄像头工作中",
-	url: "/static/logo.png"
+	url: "/static/icon/摄像头_camera-five.svg"
 },
 {
 	name: "摄像头",
 	content: "摄像头工作中",
-	url: "/static/logo.png"
+	url: "/static/icon/路由器_router.svg"
 }])
-const menuItems = ref(['快速添加', '新手指南', '发现', '产品', '项目', '工具', '我的']);
+// const menuItems = ref(['快速添加', '新手指南', '发现',]);
+const menuItems = ref([{
+	icon: "plusempty",
+	title: "快速添加"
+},
+{
+	icon: 'videocam',
+	title: '产品'
+},
+	// {
+	// 	icon: "help",
+	// 	title: "新手指南"
+	// },
+	// {
+	// 	icon: "eye",
+	// 	title: "发现"
+	// }
+]);
+
+const items = ref(['设备', '场景', '网络', '更多']);
+const current = ref(0);
+
+const onClickItem = (e) => {
+	current.value = e.currentIndex;
+};
+
+const imageError = (e) => {
+	console.log('图片加载失败', e);
+};
 const bottomInfo = ref(['通用场景']);
 </script>
 
@@ -57,7 +113,6 @@ const bottomInfo = ref(['通用场景']);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
 	padding: 0 20px 20px 20px;
 	background-color: #f5f5f5;
 	height: 100vh;
@@ -116,9 +171,9 @@ const bottomInfo = ref(['通用场景']);
 .device-info {
 	width: 100%;
 	display: flex;
-	align-items: center;
 	justify-content: flex-start;
 	margin-bottom: 20px;
+	margin-top: 90px;
 }
 
 .device-details {
@@ -155,12 +210,18 @@ const bottomInfo = ref(['通用场景']);
 
 .menu-list {
 	display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 创建两列，每列等宽 */
-  gap: 5px; /* 设置网格项目之间的竖向间距为20px */
-  grid-auto-rows: minmax(0, auto); /* 设置网格行的最小高度和最大高度 */
-  padding: 10px; /* 设置容器的内边距为10px */
-  box-sizing: border-box; /* 确保内边距不会增加容器的总宽度 */
-  justify-content: space-between; /* 网格行之间的间距自动平分 */
+	grid-template-columns: repeat(2, 1fr);
+	/* 创建两列，每列等宽 */
+	gap: 5px;
+	/* 设置网格项目之间的竖向间距为20px */
+	grid-auto-rows: minmax(0, auto);
+	/* 设置网格行的最小高度和最大高度 */
+	padding: 10px;
+	/* 设置容器的内边距为10px */
+	box-sizing: border-box;
+	/* 确保内边距不会增加容器的总宽度 */
+	justify-content: space-between;
+	/* 网格行之间的间距自动平分 */
 }
 
 .menu-item {
@@ -175,7 +236,7 @@ const bottomInfo = ref(['通用场景']);
 	color: #fff;
 	border-radius: 15px;
 	margin-bottom: 10px;
-	box-shadow: 0 2px 10px rgba(101, 158, 240, 0.3);
+	box-shadow: 2px 6px 10px rgba(97, 161, 249, 0.3);
 	width: 170px;
 	height: 50px;
 	margin: 12px;
@@ -192,6 +253,26 @@ const bottomInfo = ref(['通用场景']);
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
+}
+
+.switch-area {
+	width: 95%;
+}
+
+.switch-control ::v-deep .segmented-control__text {
+	font-size: 18px;
+}
+
+.switch-content{
+	margin-top: 20px;
+	width: 100%;
+}
+.content-list{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 10px;
+	margin-bottom: 20px;
 }
 
 .info-item {
