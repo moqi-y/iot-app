@@ -112,7 +112,6 @@ let app_height = ref(0);
 onMounted(() => {
 	uni.getSystemInfo({
 		success: res => {
-			console.log('手机可用高度:' + res.windowHeight * 2 + 'rpx');
 			app_height.value = res.windowHeight * 2;
 		}
 	});

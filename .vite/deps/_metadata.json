@@ -1,0 +1,13 @@
+{
+  "hash": "a1533b83",
+  "browserHash": "8cb27791",
+  "optimized": {
+    "mqtt": {
+      "src": "../../node_modules/mqtt/dist/mqtt.esm.js",
+      "file": "mqtt.js",
+      "fileHash": "f22941e4",
+      "needsInterop": false
+    }
+  },
+  "chunks": {}
+}
