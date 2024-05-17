@@ -13,13 +13,24 @@
 			</view>
 		</view>
 		<view class="options">
-			<uni-icons type="tune" size="22" color="#666"></uni-icons>
+			<uni-icons type="tune" size="22" color="#666" @tap="showOptions = !showOptions"></uni-icons>
+			<view class="options-list" v-show="showOptions">
+				<view class="options-item">
+					<uni-icons type="trash" size="20" color="red"></uni-icons>
+					<text>删除</text>
+				</view>
+				<view class="options-item">
+					<uni-icons type="compose" size="20" color="#1a9bf0"></uni-icons>
+					<text>编辑</text>
+				</view>
+			</view>
 		</view>
 	</view>
 </template>
 
 <script setup>
-
+import { ref } from 'vue'
+const showOptions =ref(false)
 </script>
 
 <style lang="scss" scoped>
@@ -100,5 +111,36 @@
 	justify-content: flex-start;
 	align-items: flex-start;
 	margin-top: -2px;
+	position: relative;
+}
+
+.options-list{
+	width: 60px;
+	background-color: #fffdfd;
+	border-radius: 2px;
+	padding: 1px 0;
+	box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+	z-index: 10;
+	position: absolute;
+	left: -60px;
+	top: 26px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.options-item{
+	display: inline-flex; 
+	align-items: center;
+	justify-content: center;
+	color: #000000e2;
+	height: 30px;
+	font-size: 13px;
+	border-bottom: 1px solid #f5f5f5;
+	white-space: nowrap; /* 添加属性，防止文本换行 */
+}
+.options-item:last-child{
+	border-bottom: none;
 }
 </style>
