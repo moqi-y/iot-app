@@ -33,20 +33,15 @@
 				styleType="text" activeColor="#1a9bf0"></uni-segmented-control>
 			<view class="switch-content">
 				<view class="content-list" v-show="current === 0">
-					<DeviceCard v-for="(item, index) in deviceImages" :key="index" :device="item"></DeviceCard>
+					<DeviceCard v-for="(item, index) in 4" :key="index" :device="item"></DeviceCard>
 				</view>
-				<view v-show="current === 1">
-					选项卡2的内容
+				<view class="content-list" v-show="current === 1">
+					<TerminalCard v-for="(item, index) in 3" :key="index" :device="item"></TerminalCard>
 				</view>
-				<view v-show="current === 2">
+				<view class="content-list" v-show="current === 2">
 					选项卡3的内容
 				</view>
-				<view v-show="current === 3">
-				</view>
-				<view v-show="current === 1">
-					选项卡2的内容
-				</view>
-				<view v-show="current === 2">
+				<view class="content-list" v-show="current === 2">
 					选项卡3的内容
 				</view>
 				<view v-show="current === 3">
@@ -64,6 +59,7 @@
 <script setup>
 import { ref } from 'vue';
 import DeviceCard from '../../components/DeviceCard.vue';
+import TerminalCard from '../../components/TerminalCard.vue';
 
 const navItems = ref(['设备中心']);
 const deviceImages = ref([{
@@ -72,8 +68,8 @@ const deviceImages = ref([{
 	url: "/static/icon/摄像头_camera-five.svg"
 },
 {
-	name: "摄像头",
-	content: "摄像头工作中",
+	name: "路由器",
+	content: "路由器工作中",
 	url: "/static/icon/路由器_router.svg"
 }])
 // const menuItems = ref(['快速添加', '新手指南', '发现',]);
@@ -95,7 +91,7 @@ const menuItems = ref([{
 	// }
 ]);
 
-const items = ref(['设备', '场景', '网络', '更多']);
+const items = ref(['设备', '终端', '网络', '更多']);
 const current = ref(0);
 
 const onClickItem = (e) => {
@@ -109,13 +105,16 @@ const bottomInfo = ref(['通用场景']);
 </script>
 
 <style scoped>
+page{
+	background-color: #f5f5f5;
+}
 .container {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 0 20px 20px 20px;
-	background-color: #f5f5f5;
-	height: 100vh;
+	padding: 0 20px;
+	height: 100%;
+	overflow: hidden;
 }
 
 .top-nav {
@@ -172,7 +171,6 @@ const bottomInfo = ref(['通用场景']);
 	width: 100%;
 	display: flex;
 	justify-content: flex-start;
-	margin-bottom: 20px;
 	margin-top: 90px;
 }
 
@@ -266,6 +264,9 @@ const bottomInfo = ref(['通用场景']);
 .switch-content{
 	margin-top: 20px;
 	width: 100%;
+	overflow-y: auto;
+	max-height:53vh;
+
 }
 .content-list{
 	display: flex;
@@ -273,6 +274,7 @@ const bottomInfo = ref(['通用场景']);
 	justify-content: center;
 	padding: 10px;
 	margin-bottom: 20px;
+	overflow-y: auto;
 }
 
 .info-item {
