@@ -1,14 +1,16 @@
 <template>
 	<view class="card">
 		<view class="dievice-icon">
-			<image class="device-icon-img" src="/static/icon/浏览器_browser.svg" @error="imageError"></image>
+			<image class="device-icon-img" src="/static/icon/地球仪_earth.svg" @error="imageError"></image>
 		</view>
 		<view class="device-info">
-			<view class="type-name">默认终端</view>
-			<view class="device-name">智能网络终端</view>
+			<view class="type-name">默认网络</view>
+			<view class="device-name">Net网络</view>
 			<view class="device-status">
 				<view class="tag">
-					<view class="dot"></view>正常
+					网络质量优<view class="dot">
+						<image src="/static/icon/无线网络_wifi.svg" style="width: 10px; height: 10px;"></image>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -87,11 +89,13 @@
 }
 
 .dot {
-	width: 8px; /* 保持原有的宽度 */
-	height: 8px; /* 保持原有的高度 */
-	background-color: #1ec33ac1; /* 保持原有的背景色 */
-	border-radius: 50%; /* 保持原有的边框圆角 */
-	margin-right: 2px; /* 保持原有的外边距 */
+	width: 20px; /* 保持原有的宽度 */
+	height: 10px; /* 保持原有的高度 */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #1ec33ac1;
+	transform: scale(1.3);
 }
 
 .options{
