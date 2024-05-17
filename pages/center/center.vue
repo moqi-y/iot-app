@@ -1,5 +1,8 @@
 <template>
 	<view>
+		<view class="status_bar">
+			<!-- 这里是状态栏 -->
+		</view>
 		<view class="nav-bar">个人中心</view>
 		<view class="head">
 			<view class="info">
@@ -86,6 +89,11 @@ page {
 	background-color: #f8f8f8;
 }
 
+.status_bar {
+		height: var(--status-bar-height);
+		width: 100%;
+		opacity: 100%;
+	}
 .nav-bar {
 	width: 70px;
 	text-align: center;

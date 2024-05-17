@@ -1,5 +1,8 @@
 <template>
 	<view class="container">
+		<view class="status_bar">
+			<!-- 这里是状态栏 -->
+		</view>
 		<!-- 顶部导航栏 -->
 		<view class="top-nav">
 			<view class="nav-items">
@@ -69,12 +72,12 @@
 	const deviceImages = ref([{
 			name: "摄像头",
 			content: "摄像头工作中",
-			url: "/static/icon/摄像头_camera-five.svg"
+			url: "/static/icon/camera-five.svg"
 		},
 		{
 			name: "路由器",
 			content: "路由器工作中",
-			url: "/static/icon/路由器_router.svg"
+			url: "/static/icon/router.svg"
 		}
 	])
 	// const menuItems = ref(['快速添加', '新手指南', '发现',]);
@@ -122,6 +125,12 @@
 <style scoped>
 	page {
 		background-color: #f5f5f5;
+	}
+
+	.status_bar {
+		height: var(--status-bar-height);
+		width: 100%;
+		background: linear-gradient(90deg, #1a9bf0, #1a5df0);
 	}
 
 	.container {
