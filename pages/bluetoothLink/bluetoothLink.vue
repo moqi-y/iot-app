@@ -16,17 +16,10 @@
 			</view>
 		</view>
 		<view class="search-text">蓝牙搜索中...</view>
-		<button @tap="toTest()">进入蓝牙测试页面</button>
 		<view class="search-results">
+			<view class="no-result" v-show="devicesList.length == 0">未搜索到蓝牙设备</view>
 			<!-- 搜索结果列表 -->
 			<ResultCard v-for="(result, index) in devicesList" :key="index" :device="result" @connect="connectDevice" />
-			<view>devicesList:{{ devicesList }}</view>
-			<view>
-				测试：{{ resultData }}
-			</view>
-			<view>
-				状态：{{ statusData }}
-			</view>
 		</view>
 	</view>
 </template>
@@ -40,39 +33,17 @@ import {
 
 const devicesList = ref([])
 
-const resultData = ref("无数据")
-const statusData = ref("无状态")
-
 const goBack = () => {
 	uni.navigateBack();
 };
 
-const toTest = () => {
-	uni.navigateTo({
-		url: '/pages/buletoothTest/buletoothTest'
-	})
-}
-
 const initBlue = () => {
 	uni.openBluetoothAdapter({
 		success(res) {
-			statusData.value = res
-			console.log('初始化蓝牙成功')
-			console.log(res)
-			uni.showModal({
-				title: '初始化成功',
-				content: res.errMsg
-			})
 			discovery()
 		},
 		fail(err) {
-			statusData.value = res
 			console.log('初始化蓝牙失败')
-			console.error(err)
-			uni.showModal({
-				title: '初始化蓝牙失败',
-				content: res.errMsg
-			})
 		}
 	})
 }
@@ -80,68 +51,29 @@ const initBlue = () => {
 const discovery = () => {
 	uni.startBluetoothDevicesDiscovery({
 		success(res) {
-			statusData.value = res
-			resultData.value = res
 			console.log('开始搜索')
-			uni.showModal({
-				title: '开始搜索',
-				content: res.errMsg
-			})
+			getBluetoothList()
 			// 开启监听回调
-			// uni.onBluetoothDeviceFound(found)
 			uni.onBluetoothDeviceFound(function (devices) {
-				statusData.value = "搜索到新设备"
-				resultData.value = devices
-				devicesList.value = devices.devices
-				console.log('new device list has founded')
-				console.dir(devices)
-				console.log(ab2hex(devices[0].advertisData))
-				uni.showModal({
-					title: '监听回调',
-					content: `${JSON.stringify(devices)},${devices[0]}`
-				})
-				uni.getBluetoothDevices({
-					success(res) {
-						statusData.value = "在获取已发现设备"
-						resultData.value = res
-						console.log(res)
-						if (res.devices[0]) {
-							console.log(ab2hex(res.devices[0].advertisData))
-							uni.showModal({
-								title: '已发现的设备',
-								content: `${JSON.stringify(res)},${JSON.stringify(res.devices[0])}`
-							})
-						}
-					},
-					fail(err) {
-						statusData.value = "已发现设备获取失败"
-						resultData.value = err
-					}
-				})
+				getBluetoothList()
 			})
 		},
 		fail(err) {
-			statusData.value = "搜索失败"
-			resultData.value = err
 			console.log('搜索失败')
 			console.error(err)
-			uni.showModal({
-				title: '搜索失败',
-				content: res.errMsg
-			})
 		}
 	})
 }
 
-const found = (res) => {
-	uni.showModal({
-		title: 'founnd',
-		content: `${res.errMsg},${res.devices[0]},${res.devices[0].name}`
-	})
-	devicesList.value.push(res.devices[0])
-	uni.showModal({
-		title: 'founnd-1',
-		content: `${JSON.stringify(res)},${res.errMsg}`
+const getBluetoothList = (res) => {
+	uni.getBluetoothDevices({
+		success(res) {
+			console.log(res)
+			devicesList.value = res.devices
+		},
+		fail(err) {
+			console.log(err);
+		}
 	})
 }
 
@@ -153,6 +85,7 @@ onMounted(() => {
 /* 页面和组件的基础样式 */
 /* 页面和组件的基础样式 */
 .page {
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -162,8 +95,7 @@ onMounted(() => {
 }
 
 .search-container {
-	/* margin-top: cale(100px + var(--status-bar-height)); */
-	margin-top: 100px;
+	margin-top: cale(100px + var(--status-bar-height));
 	width: 300px;
 	height: 300px;
 	background-color: #fff;
@@ -245,13 +177,22 @@ onMounted(() => {
 	border-bottom: 1px solid #cccccc54;
 }
 
+.no-result{
+	width: 100%;
+	text-align: center;
+	margin-top: 30px;
+	font-size: 18px;
+	color: #666;
+	opacity: 0.6;
+}
+
 /* 搜索结果列表的样式 */
 .search-results {
-	width: 100%;
+	width: 96%;
 	max-height: 500px;
 	background: rgba(255, 255, 255, 0.9);
 	border-radius: 10px;
-	padding: 20px;
+	padding: 2%;
 	overflow: auto;
 }
 

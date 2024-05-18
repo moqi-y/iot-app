@@ -37,7 +37,7 @@ const props = defineProps({
 
 .card-name{
     width: 60%;
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 600;
     color: #333333;
     display: flex;
