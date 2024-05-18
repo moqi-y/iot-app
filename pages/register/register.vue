@@ -57,7 +57,7 @@
 		color: #a7b6d0;
 	}
 	.zai-btn{
-		background: #ff65a3;
+		background: #679ef0;
 		color: #fff;
 		border: 0;
 		border-radius: 100upx;
