@@ -60,7 +60,8 @@
 				快速添加设备
 			</view>
 			<view class="popup-area">
-				<PopupCard v-for="(item, index) in popupMenuList" :key="index" :menuItem="item"></PopupCard>
+				<PopupCard v-for="(item, index) in popupMenuList" :key="index" :menuItem="item" @tapCard="onTapCard">
+				</PopupCard>
 			</view>
 		</view>
 	</uni-popup>
@@ -75,6 +76,7 @@ import DeviceCard from '../../components/DeviceCard.vue';
 import TerminalCard from '../../components/TerminalCard.vue';
 import NetCard from '../../components/NetCard.vue';
 import PopupCard from '../../components/PopupCard.vue';
+
 
 const popup = ref(null)
 
@@ -103,9 +105,9 @@ const menuItems = ref([{
 }
 ]);
 
-const popupMenuList=ref([
-	{id:1,name:"连接蓝牙添加设备",icon:"/static/icon/bluetooth.svg"},
-	{id:2,name:"扫码快速添加设备",icon:"/static/icon/scanning-two.svg"},
+const popupMenuList = ref([
+	{ id: 1, name: "连接蓝牙添加设备", icon: "/static/icon/bluetooth.svg" },
+	{ id: 2, name: "扫码快速添加设备", icon: "/static/icon/scanning-two.svg" },
 ])
 
 const items = ref(['设备', '终端', '网络', '更多']);
@@ -154,6 +156,32 @@ const onMenuItem = (item) => {
 		// console.log("popup",popup.value.open());
 		popup.value.open()
 	}
+}
+
+/**
+ * 点击卡片
+ */
+const onTapCard = (item) => {
+	console.log("item", item);
+	if (item.id === 1) {
+		// 连接蓝牙
+		onDeviceDetail('bluetoothLink')
+	} else if (item.id === 2) {
+		// 扫码
+		uni.showToast({
+			title: '扫码',
+			icon: 'none'
+		});
+	}
+}
+
+/**
+ * 跳转到设备详情页
+ */
+const onDeviceDetail = (pathName) => {
+	uni.navigateTo({
+		url: `/pages/${pathName}/${pathName}`
+	});
 }
 
 
@@ -358,7 +386,7 @@ page {
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.popup-content{
+.popup-content {
 	width: 100%;
 	height: 370px;
 	display: flex;
@@ -370,11 +398,11 @@ page {
 .popup-title {
 	font-size: 18px;
 	font-weight: 600;
-	margin:20px 0 20px 0;
+	margin: 20px 0 20px 0;
 	color: #333;
 }
 
-.popup-area{
+.popup-area {
 	width: 100%;
 	display: flex;
 	flex-direction: column;

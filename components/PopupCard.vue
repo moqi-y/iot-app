@@ -1,5 +1,5 @@
 <template>
-    <view class="popup-card">
+    <view class="popup-card" @tap="$emit('tapCard', menuItem)">
         <view class="card-icon">
             <image class="card-icon-img" :src="menuItem.icon"></image>
         </view>
