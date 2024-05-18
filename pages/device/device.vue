@@ -168,10 +168,7 @@ const onTapCard = (item) => {
 		onDeviceDetail('bluetoothLink')
 	} else if (item.id === 2) {
 		// 扫码
-		uni.showToast({
-			title: '扫码',
-			icon: 'none'
-		});
+		onScan()
 	}
 }
 
