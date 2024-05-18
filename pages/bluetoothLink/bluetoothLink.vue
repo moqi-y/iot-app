@@ -38,6 +38,7 @@ const goBack = () => {
 };
 
 const initBlue = () => {
+	getBluetoothList()
 	uni.openBluetoothAdapter({
 		success(res) {
 			discovery()
@@ -69,7 +70,8 @@ const getBluetoothList = (res) => {
 	uni.getBluetoothDevices({
 		success(res) {
 			console.log(res)
-			devicesList.value = res.devices
+			// devicesList.value = res.devices
+			devicesList.value = [1,2,3]
 		},
 		fail(err) {
 			console.log(err);
@@ -95,7 +97,7 @@ onMounted(() => {
 }
 
 .search-container {
-	margin-top: cale(100px + var(--status-bar-height));
+	margin-top: 100px;
 	width: 300px;
 	height: 300px;
 	background-color: #fff;
