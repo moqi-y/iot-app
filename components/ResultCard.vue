@@ -1,11 +1,11 @@
 <template>
-	<view class="card">
+	<view class="card" @tap="$emit('connect', device)">
 		<view class="dievice-icon">
 			<image class="device-icon-img" src="/static/icon/devices.svg" @error="imageError"></image>
 		</view>
 		<view class="device-info">
-			<view class="type-name">未知设备</view>
-			<view class="device-name">bto2353544574</view>
+			<view class="type-name">{{ device.name || "未知设备" }}</view>
+			<view class="device-name">{{ device.deviceId }}</view>
 		</view>
 		<view class="options">
 			<view class="device-status">
@@ -18,7 +18,16 @@
 </template>
 
 <script setup>
+const props = defineProps({
+	device: {
+		type: Object,
+		default: () => {}
+	}
+})
 
+const imageError = () => {
+	console.log('图片加载失败');
+}
 </script>
 
 <style lang="scss" scoped>

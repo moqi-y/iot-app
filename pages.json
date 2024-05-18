@@ -64,8 +64,7 @@
 				"enablePullDownRefresh" : false,
 				"navigationStyle":"custom"
 			}
-		}
-		
+		}	
 	],
 	"tabBar": {
 		"color": "#515151",
