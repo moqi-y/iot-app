@@ -192,6 +192,7 @@
 	.scan-text {
 		font-size: 12px !important;
 		color: #fff;
+		margin-top: 2px;
 	}
 
 	.nav-item {
@@ -223,7 +224,6 @@
 	.device-image {
 		width: 64px;
 		height: 64px;
-		border-radius: 50%;
 	}
 
 	.device-name {
