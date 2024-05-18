@@ -12,7 +12,6 @@ import {
 	ref,
 	onMounted
 } from "vue";
-import mqtt from 'mqtt';
 const data = ref("测试")
 
 const chartData = ref({})
