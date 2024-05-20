@@ -24,7 +24,7 @@
 		<!-- 功能菜单 -->
 		<view class="menu-list">
 			<view class="menu-item" v-for="(item, index) in menuItems" :key="index" @tap="onMenuItem(item)">
-				<uni-icons :type="item.icon" size="42" color="#1a9bf0" style="margin-right: 6px;"></uni-icons>
+				<uni-icons :type="item.icon" size="36" color="#fff" style="margin-right: 6px;"></uni-icons>
 				<text class="menu-title">{{ item.title }}</text>
 			</view>
 		</view>
@@ -41,9 +41,6 @@
 				</view>
 				<view class="content-list" v-show="current === 2">
 					<NetCard v-for="(item, index) in 2" :key="index" :device="item"></NetCard>
-				</view>
-				<view class="content-list" v-show="current === 2">
-					选项卡3的内容
 				</view>
 				<view v-show="current === 3">
 					<!-- 底部信息 -->
@@ -290,6 +287,7 @@ page {
 	width: 100%;
 	display: flex;
 	align-items: center;
+	font-size: 16px;
 	margin-top: 2rpx;
 	margin-left: 4px;
 }
