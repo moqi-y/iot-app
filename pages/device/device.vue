@@ -259,7 +259,6 @@ page {
 	font-weight: 600;
 }
 
-/* 元素最后一个 */
 
 
 .device-info {
