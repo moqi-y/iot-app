@@ -12,6 +12,8 @@
 		</view>
 		<view id="mynetwork"></view>
 	</view>
+
+	<button @tap="testGetFun()">测试按钮</button>
 </template>
 
 <script setup>
@@ -19,6 +21,10 @@
 		ref,
 		onMounted
 	} from "vue";
+	import {
+		getTest
+	} from '../../api/test.js';
+
 	const data = ref("测试")
 
 	const chartData = ref({})
@@ -186,11 +192,23 @@
 			}
 		};
 		var network = new vis.Network(container, data, options);
-		
+
 		// 点击事件
-		network.on('click',function(properties){
-			console.log("properties:",properties);
+		network.on('click', function(properties) {
+			console.log("properties:", properties);
 		})
+	}
+
+
+	// 测试请求
+	const testGetFun = async () => {
+		let res = await getTest({
+			"username": "admin",
+			"password": "admin123",
+			"code": "1",
+			"uuid": "1"
+		})
+		console.log("res", res);
 	}
 </script>
 
