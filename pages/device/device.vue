@@ -34,7 +34,7 @@
 				styleType="text" activeColor="#1a9bf0"></uni-segmented-control>
 			<view class="switch-content" :style="{ height: app_height * 0.5 + 'rpx' }">
 				<view class="content-list" v-show="current === 0">
-					<DeviceCard v-for="(item, index) in 4" :key="index" :device="item"></DeviceCard>
+					<DeviceCard v-for="(item, index) in deviceList" :key="index" :device="item" @onTap="onTapDeviceCard"></DeviceCard>
 				</view>
 				<view class="content-list" v-show="current === 1">
 					<TerminalCard v-for="(item, index) in 3" :key="index" :device="item"></TerminalCard>
@@ -43,7 +43,6 @@
 					<NetCard v-for="(item, index) in 2" :key="index" :device="item"></NetCard>
 				</view>
 				<view v-show="current === 3">
-					<!-- 底部信息 -->
 					<view class="bottom-info">
 						<text class="info-item" v-for="(item, index) in bottomInfo" :key="index">{{ item }}</text>
 					</view>
@@ -88,6 +87,24 @@ const deviceImages = ref([{
 	content: "路由器工作中",
 	url: "/static/icon/router.svg"
 }
+])
+
+const deviceList = ref([
+	{
+		id:0,
+		typeName:"监控设备",
+		deviceName:"网络摄像头",
+		deviceStatus:"设备在线",
+		icon:"/static/icon/camera-five.svg"
+	},
+	{
+		id:2,
+		typeName:"移动设备",
+		deviceName:"网络摄像头",
+		deviceStatus:"设备在线",
+		icon:"/static/icon/camera-five.svg"
+	},
+	
 ])
 // const menuItems = ref(['快速添加', '新手指南', '发现',]);
 const menuItems = ref([{
@@ -154,6 +171,18 @@ const onMenuItem = (item) => {
 		popup.value.open()
 	}
 }
+
+/**
+ * 点击列表中的设备项
+ */
+const onTapDeviceCard=(e)=>{
+	console.log("e",e);
+	uni.navigateTo({
+		url:`/pages/deviceDetail/deviceDetail?deviceId=${e.id}`
+		
+	})
+}
+
 
 /**
  * 点击卡片

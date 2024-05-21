@@ -7,7 +7,8 @@
 		ref,
 		onMounted
 	} from "vue";
-
+	import { onShow , onLoad } from "@dcloudio/uni-app"
+	    
 	const props = defineProps({
 		// 自定义模块高度
 		height: {
@@ -104,6 +105,10 @@
 
 	onMounted(() => {
 		drowNetWorkPic()
+	})
+	
+	onLoad((e) => {
+	    console.log(e)
 	})
 	
 </script>

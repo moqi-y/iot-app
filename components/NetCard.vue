@@ -21,7 +21,9 @@
 </template>
 
 <script setup>
-
+const imageError=(e)=>{
+	console.log("图片加载失败",e);
+}
 </script>
 
 <style lang="scss" scoped>

@@ -1,17 +1,20 @@
 <template>
 	<view class="card">
-		<view class="dievice-icon">
-			<image class="device-icon-img" src="/static/icon/camera-five.svg" @error="imageError"></image>
-		</view>
-		<view class="device-info">
-			<view class="type-name">默认设备</view>
-			<view class="device-name">网络摄像头</view>
-			<view class="device-status">
-				<view class="tag">
-					<view class="dot"></view>设备在线
+		<view class="card-content" @tap="$emit('onTap',device)">
+			<view class="dievice-icon">
+				<image class="device-icon-img" :src="device.icon" @error="imageError"></image>
+			</view>
+			<view class="device-info">
+				<view class="type-name">{{device.typeName}}</view>
+				<view class="device-name">{{device.deviceName}}</view>
+				<view class="device-status">
+					<view class="tag">
+						<view class="dot"></view>{{device.deviceStatus}}
+					</view>
 				</view>
 			</view>
 		</view>
+		
 		<view class="options">
 			<uni-icons type="tune" size="22" color="#666" @tap="showOptions = !showOptions"></uni-icons>
 			<view class="options-list" v-show="showOptions">
@@ -30,18 +33,32 @@
 
 <script setup>
 import { ref } from 'vue'
+
+const props = defineProps({
+	device:{}
+})
+
 const showOptions =ref(false)
+
+const imageError=(e)=>{
+	console.log("图片加载失败",e);
+}
 </script>
 
 <style lang="scss" scoped>
 .card {
-	width: 92%;
 	height: 75px;
 	background-color: #fff;
 	border-radius: 10px;
 	box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
 	margin-bottom: 20px;
 	padding: 4%;
+	display: flex;
+	justify-content: space-around;
+}
+
+.card-content{
+	width: 92%;
 	display: flex;
 	justify-content: space-around;
 }
