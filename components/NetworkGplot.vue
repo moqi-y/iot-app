@@ -21,14 +21,14 @@
 			default: [{
 					id: 101,
 					label: "防火墙",
-					image: "https://upload.wikimedia.org/wikipedia/zh/d/d8/Windows_Firewall_Icon.png",
+					image: "./static/icon/Windows_Firewall_Icon.png",
 					shape: "image",
 					fixed: true
 				},
 				{
 					id: 201,
 					label: "网络交换机",
-					image: "https://pic.pngsucai.com/00/13/36/172dade1a31a5005.webp",
+					image: "./static/icon/switch-device.webp",
 					shape: "image",
 					fixed: true
 				},
