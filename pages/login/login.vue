@@ -1,7 +1,12 @@
 <template>
 	<view class="zai-box">
 		<image src="/static/zaizai-login/login.png" mode='aspectFit' class="zai-logo"></image>
-		<view class="zai-title">LOGO区域</view>
+		<view class="zai-title">
+			<image class="logo" src="../../static/logo.png"></image>
+			<text class="logo-title">
+				IotApp
+			</text>
+		</view>
 		<view class="zai-form">
 			<input class="zai-input" placeholder-class placeholder="请输入用户名" />
 			<input class="zai-input" placeholder-class password placeholder="请输入密码"/>
@@ -32,6 +37,16 @@
 		width: 100%;
 		height: 310upx;
 	}
+	.logo{
+		width: 70px;
+		height: 70px;
+	}
+	.logo-title{
+		font-size: 32px;
+		color: #fff;
+		font-weight: 600;
+		margin-left: 10px;
+	}
 	.zai-title{
 		position: absolute;
 		top: 40px;
@@ -41,6 +56,9 @@
 		text-align: center;
 		width: 100%;
 		margin-left: -100upx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 	.zai-form{
 		margin-top: 300upx;
