@@ -1,122 +1,70 @@
 <template>
-	<view id="mynetwork" :style="{height:`${height}`}"></view>
+	<view>
+		<canvas class="canvas" ref="canvasRef"  canvas-id="myCanvas"></canvas>
+	</view>
 </template>
-
 <script setup>
-	import {
+	import { start } from "repl";
+import {
 		ref,
 		onMounted
 	} from "vue";
-	import { onShow , onLoad } from "@dcloudio/uni-app"
-	    
-	const props = defineProps({
-		// 自定义模块高度
-		height: {
-			type: String,
-			default: "300px"
-		},
-		// 节点数组
-		nodeList: {
-			type: Array,
-			default: [{
-					id: 101,
-					label: "防火墙",
-					image: "./static/icon/Windows_Firewall_Icon.png",
-					shape: "image",
-					fixed: true
-				},
-				{
-					id: 201,
-					label: "网络交换机",
-					image: "./static/icon/switch-device.webp",
-					shape: "image",
-					fixed: true
-				},
-				{
-					id: 303,
-					label: "智能摄像头",
-					image: "./static/icon/camera-five.svg",
-					shape: "image",
-					fixed: true
-				},
-				{
-					id: 304,
-					label: "智能终端",
-					image: "./static/icon/devices.svg",
-					shape: "image",
-					fixed: true
-				},
-				{
-					id: 305,
-					label: "智能路由器",
-					image: "./static/icon/router.svg",
-					shape: "image",
-					fixed: true
-				}
-			]
-		},
-		// 网络连线数组
-		edgeList: {
-			type: Array,
-			default: [{
-					from: 101,
-					to: 201,
-				},
-				{
-					from: 201,
-					to: 303,
-				},
-				{
-					from: 201,
-					to: 304,
-				},
-				{
-					from: 201,
-					to: 305,
-				}
-			]
-		}
-	})
 
-	const emits = defineEmits(["onTap"])
-	// 绘制网络拓扑
-	const drowNetWorkPic = () => {
-		const nodes = new vis.DataSet(props.nodeList);
-		// 创建一个有边的数组
-		var edges = new vis.DataSet(props.edgeList);
-		// 创建网络
-		const container = document.getElementById("mynetwork");
-		const data = {
-			nodes: nodes,
-			edges: edges,
-		};
-		const options = {
-			layout: {
-				hierarchical: true //开启分层
-			}
-		};
-		const network = new vis.Network(container, data, options);
-
-		// 点击事件
-		network.on('click', function(properties) {
-			emits("onTap", properties)
-		})
-	}
-
+	const canvasRef =ref(null)
+	
 	onMounted(() => {
-		drowNetWorkPic()
+		draw()
 	})
-	
-	onLoad((e) => {
-	    console.log(e)
-	})
-	
-</script>
 
+	/**
+	 * 绘制的方法
+	 */
+	const draw = () => {
+		let ctx = uni.createCanvasContext('myCanvas')
+		// 获取canvas的尺寸
+		let width = canvasRef.value.$el.offsetWidth;
+		let height = canvasRef.value.$el.offsetHeight;
+		// 计算中心点坐标
+		let centerX = width / 2;
+		let centerY = height / 2;
+		// 移动画布的原点到中心点
+		ctx.translate(centerX, centerY);
+		
+		ctx.setFillStyle('red')
+		ctx.fillRect(0, 0, 10, 10)
+		
+		ctx.setFillStyle('red')
+		ctx.fillRect(100, 80, 40, 50)
+		
+		ctx.beginPath();
+		ctx.lineWidth="2";
+		ctx.strokeStyle="blue"; // 红色路径
+		ctx.moveTo(10,10);
+		ctx.lineTo(100,80);
+		ctx.stroke(); // 进行绘制
+		
+		ctx.beginPath();
+		ctx.lineWidth="2";
+		ctx.strokeStyle="blue"; // 红色路径
+		ctx.moveTo(100,100);
+		ctx.lineTo(10,8);
+		ctx.stroke(); // 进行绘制
+		
+		
+		ctx.draw()
+		
+	}
+	
+	/**
+	 * 绘制线条
+	 */
+	// const drawLine
+</script>
 <style scoped>
-	/* 网络拓扑图 */
-	#mynetwork {
+	.canvas {
+		width: 350px;
+		height: 400px;
+		border: 1px solid #000;
 		margin: 0 auto;
-		width: 100%;
 	}
 </style>

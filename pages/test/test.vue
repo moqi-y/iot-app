@@ -4,6 +4,9 @@
 			<qiun-data-charts type="line" :opts="opts" :chartData="chartData" />
 		</view>
 	</view>
+	<view class="mqtt-result">
+		mqtt响应:{{mqttResult.msg}}
+	</view>
 	<button @tap="endMqtt()">断开连接</button>
 
 	<view class="net-pic">
@@ -25,7 +28,10 @@
 		getTest
 	} from '../../api/test.js';
 
+	import mqtt from 'mqtt/dist/mqtt.js';
+
 	const data = ref("测试")
+	const mqttResult = ref("mqtt无返回结果")
 
 	const chartData = ref({})
 	const opts = ref({
@@ -40,8 +46,8 @@
 	})
 	onMounted(() => {
 		getServerData()
-		mqttfun()
-		drowNetWorkPic()
+		// mqttfun()
+		// drowNetWorkPic()
 	})
 	const getServerData = () => {
 		setTimeout(() => {
@@ -66,7 +72,8 @@
 
 
 	const mqttfun = () => {
-		console.log("mqtt:", mqtt)
+		// console.log("mqtt:", mqtt)
+		// connect()
 	}
 
 	/**
@@ -76,16 +83,26 @@
 		client.end()
 	}
 
-	const connectUrl = `ws://broker.emqx.io:8083/mqtt`;
+	const connectBaseUrl = `broker.emqx.io:8083/mqtt`;
 	const clientId = `mqtt_${Math.random().toString(16).slice(3)}`;
-	const client = mqtt.connect(connectUrl, {
+	let myOptions = {
 		clean: true,
 		connectTimeout: 4000,
 		reconnectPeriod: 1000,
 		clientId: clientId,
 		username: 'emqx_test',
 		password: 'emqx_test'
-	})
+	}
+
+	// #ifdef H5
+	console.log('h5')
+	const client = mqtt.connect(`ws://${connectBaseUrl}`, myOptions)
+	//#endif
+
+	// #ifdef APP-PLUS
+	console.log('app')
+	const client = mqtt.connect(`wx://${connectBaseUrl}`, myOptions)
+	//#endif
 
 	// 需要订阅的主题
 	const topic = 'test';
@@ -104,6 +121,7 @@
 		// 这里有可能拿到的数据格式是Uint8Array格式，所以可以直接用toString转成字符串
 		// let data = JSON.parse(message.toString());
 		console.log("返回的数据：", message)
+		mqttResult.value = JSON.parse(message.toString())
 	});
 
 	// 连接断开后触发的回调

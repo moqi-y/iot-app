@@ -20,3 +20,14 @@ export function createApp() {
   }
 }
 // #endif
+
+// #ifndef MP
+// 处理 wx.connectSocket promisify 兼容问题，强制返回 SocketTask
+uni.connectSocket = (function(connectSocket) {
+	return function(options) {
+		console.log(options)
+		options.success = options.success || function() {}
+		return connectSocket.call(this, options)
+	}
+})(uni.connectSocket)
+// #endif

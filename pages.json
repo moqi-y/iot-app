@@ -10,6 +10,13 @@
 			}
 		},
 		{
+			"path": "pages/test/test",
+			"style": {
+				"navigationBarTitleText": "测试页面",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
 			"path" : "pages/device/device",
 			"style" : 
 			{
@@ -29,13 +36,6 @@
 			"style": {
 				"navigationBarTitleText": "个人中心",
 				"navigationStyle":"custom"
-			}
-		},
-		{
-			"path": "pages/test/test",
-			"style": {
-				"navigationBarTitleText": "测试页面",
-				"enablePullDownRefresh": false
 			}
 		},
 		{
@@ -69,7 +69,7 @@
 			"path" : "pages/deviceDetail/deviceDetail",
 			"style" : 
 			{
-				"navigationBarTitleText" : "",
+				"navigationBarTitleText" : "设备详情",
 				"enablePullDownRefresh" : false
 			}
 		}
@@ -101,5 +101,15 @@
 		"backgroundColor": "#F8F8F8",
 		"transparentTitle":"auto"
 	},
-	"uniIdRouter": {}
+	"uniIdRouter": {},
+	"condition" : { //模式配置，仅开发期间生效
+		"current": 0, //当前激活的模式(list 的索引项)
+		"list": [
+			{
+				"name": "", //模式名称
+				"path": "pages/test/test", //启动页面，必选
+				"query": "" //启动参数，在页面的onLoad函数里面得到
+			}
+		]
+	}
 }
