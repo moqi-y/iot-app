@@ -48,7 +48,8 @@ const initDraw = () => {
 	// 绘制线条
 	drawLine(ctx, 10, 10, 40, 50)
 
-
+	
+	// drawImage(ctx, '../../static/logo.png')
 
 
 	// 绘制到画布
@@ -84,7 +85,7 @@ const drawImage = (ctx, imgPath) => {
 		src: imgPath,
 		success: function(res) {
 			console.log(res.path)
-			ctx.drawImage(res.path, 0, 0, 100, 100)
+			ctx.drawImage(res.path, 0, 0, 30, 30)
 			ctx.draw()
 		}
 	})
