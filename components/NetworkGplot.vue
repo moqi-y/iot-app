@@ -51,7 +51,7 @@ const initDraw = () => {
 	
 	// drawImage(ctx, '../../static/logo.png')
 
-
+	// ctx.drawImage(img,10,10);
 	// 绘制到画布
 	ctx.draw()
 }
