@@ -47,7 +47,7 @@
 	onMounted(() => {
 		getServerData()
 		// mqttfun()
-		// drowNetWorkPic()
+		drowNetWorkPic()
 	})
 	const getServerData = () => {
 		setTimeout(() => {
