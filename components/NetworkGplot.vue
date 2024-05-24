@@ -47,17 +47,19 @@ const initDraw = () => {
 
 	// 绘制线条
 	drawLine(ctx, 10, 10, 40, 50)
+	drawText(ctx, "文字内容", 70, 144)
 
-	
-	// drawImage(ctx, '../../static/logo.png')
+	drawImage(ctx, '../../static/logo.png', 30, 10)
+	// ctx.drawImage( '../../static/logo.png' , 30 , 10 , 12 , 15 );		//绘制图
 
-	// ctx.drawImage(img,10,10);
 	// 绘制到画布
 	ctx.draw()
 }
 
 /**
  * 绘制线条
+ * (画布,起点x轴位置 , 起点y轴位置 , 终点x轴位置 , 终点y轴位置 )
+ * 注意： 画布坐标系是以左上角为原点，x轴向右，y轴向下
  */
 const drawLine = (ctx, startX, startY, endX, endY) => {
 	ctx.beginPath();
@@ -70,6 +72,8 @@ const drawLine = (ctx, startX, startY, endX, endY) => {
 
 /**
  * 绘制长方形
+ * (画布,x轴位置 , y轴位置 , 宽度 , 高度)
+ * 注意： 画布坐标系是以左上角为原点，x轴向右，y轴向下
  */
 const drawRect = (ctx, x, y, width, height) => {
 	ctx.setFillStyle('red')
@@ -78,12 +82,12 @@ const drawRect = (ctx, x, y, width, height) => {
 
 
 /**
- * 绘制图片到画布
+ * 绘制网络图片到画布(未实现)
  */
-const drawImage = (ctx, imgPath) => {
+const drawNetImage = (ctx, imgPath) => {
 	uni.getImageInfo({
 		src: imgPath,
-		success: function(res) {
+		success: function (res) {
 			console.log(res.path)
 			ctx.drawImage(res.path, 0, 0, 30, 30)
 			ctx.draw()
@@ -92,15 +96,25 @@ const drawImage = (ctx, imgPath) => {
 }
 
 /**
- * 绘制文字
+ * 绘制本地图片
+ * （画布,图片路径 , x轴位置 , y轴位置 , 宽度 , 高度）
  */
-const drawText = (ctx, text, x, y) => {
-	ctx.setFontSize(16)
-	ctx.setFillStyle('#000000')
-	ctx.fillText(text, x, y)
-	ctx.draw()
+const drawImage = (ctx, imgPath, x, y, width = 50, height = 50) => {
+	ctx.drawImage(imgPath, x, y, width, height)
 }
 
+
+
+/**
+ * 绘制文字
+ * (画布,文字内容 , x轴位置 , y轴位置 )
+ * 注意： 画布坐标系是以左上角为原点，x轴向右，y轴向下
+ */
+const drawText = (ctx, text, x, y, color = 'black', fontSize = 14) => {
+	ctx.setFontSize(fontSize)
+	ctx.setFillStyle(color)
+	ctx.fillText(text, x, y)
+}
 
 
 </script>
