@@ -138,7 +138,7 @@
 	 */
 	const drawLine = (ctx, startX, startY, endX, endY) => {
 		ctx.beginPath();
-		ctx.lineWidth = "2";
+		ctx.lineWidth = "3";
 		ctx.strokeStyle = "#00aaff"; // 红色路径
 		ctx.moveTo(startX, startY);
 		ctx.lineTo(endX, endY);
@@ -207,20 +207,41 @@
 		drawText(ctx, props.switch[0].name, 0 - imageWidth / 2, imageHeight + lineHeight)
 	}
 
+
 	/**
 	 * 绘制设备
 	 */
-
 	const drawDevice = (ctx) => {
-		// let total = props.devices.length
-		let total = 1
+		let total = props.devices.length
+		// let total = 1
 		for (let i = 0; i < total; i++) {
-			drawImage(ctx, props.devices[i].image, 0 - imageWidth / 2, ctxInfo.value.centerY - imageHeight * 2,
+			drawImage(ctx, props.devices[i].image, computeOffsets(total)[i] - imageWidth / 2, ctxInfo.value.centerY -
+				imageHeight * 2,
 				imageWidth,
 				imageHeight);
 			drawText(ctx, props.devices[0].name, 0 - imageWidth / 2, ctxInfo.value.centerY - lineHeight + 5)
 		}
 	}
+
+	/**
+	 * 计算设备绘制偏移量
+	 * num {number} 设备数量 
+	 */
+	const computeOffsets = (num) => {
+		// 假设每个设备之间的间隔是20个单位
+		const distanceBetweenPoints = 60;
+		// 创建一个空数组来存储偏移量
+		let offsets = [];
+		// 计算每个设备的偏移量并添加到数组中
+		for (let i = 0; i < num; i++) {
+			// 计算偏移量
+			let offset = -((num - 1) / 2) * distanceBetweenPoints + i * distanceBetweenPoints;
+			// 将偏移量添加到数组中
+			offsets.push(offset);
+		}
+		// 数组从小到大排列输出
+		return offsets;
+	};
 
 
 	/**
@@ -232,15 +253,17 @@
 			startX, -(ctxInfo.value.centerY / 2) + imageHeight)
 		drawLine(ctx, startX, -(ctxInfo.value.centerY / 2) + imageHeight + lineHeight,
 			startX, imageHeight)
-		drawLine(ctx, startX, imageHeight + lineHeight,
-			startX, ctxInfo.value.centerY - imageHeight * 2)
-
+		for (var i = 0; i < props.devices.length; i++) {
+			drawLine(ctx, startX, imageHeight + lineHeight,
+				computeOffsets(props.devices.length)[i], ctxInfo.value.centerY - imageHeight * 2)
+		}
 	}
+	
 </script>
 <style scoped>
 	.canvas {
 		width: 375px;
-		height: 80vh;
+		height: 600px;
 		border: 1px solid #000;
 		margin: 0 auto;
 	}
