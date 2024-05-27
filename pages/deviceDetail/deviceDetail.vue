@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<NetworkGplot :nodeList="nodes" :edgeList="edges" height="400px" @onTap="testfn"></NetworkGplot>
+		<NetworkGplot @onTap="testfn"></NetworkGplot>
 	</view>
 </template>
 
@@ -12,7 +12,7 @@
 
 	import NetworkGplot from '../../components/NetworkGplot.vue'
 
-	const nodes = ref()
+	const root = ref()
 	const edges = ref()
 
 	const testfn = (e) => {

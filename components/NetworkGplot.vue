@@ -6,8 +6,74 @@
 <script setup>
 	import {
 		ref,
-		onMounted
+		onMounted,
+		defineProps
 	} from "vue";
+
+	// 画布信息
+	const ctxInfo = ref({})
+
+	let imageWidth = 50
+	let imageHeight = imageWidth
+
+	const props = defineProps({
+		root: {
+			type: Array,
+			default: [{
+				id: 101,
+				typeId: 1,
+				name: "以太网",
+				image: "../../static/icon/Windows_Firewall_Icon.png"
+			}]
+		},
+		gateway: {
+			type: Array,
+			default: [{
+				id: 201,
+				typeId: 2,
+				name: "网关-Gate-1",
+				image: "../../static/icon/router.svg"
+			}]
+		},
+		switch: {
+			type: Array,
+			default: [{
+				id: 301,
+				typeId: 3,
+				name: "网络交换机",
+				image: "../../static/icon/switch-device.webp"
+			}]
+		},
+		devices: {
+			type: Array,
+			default: [{
+					id: 401,
+					typeId: 4,
+					name: "移动设备",
+					image: "../../static/icon/devices.svg"
+				},
+				{
+					id: 402,
+					typeId: 4,
+					name: "监控设备",
+					image: "../../static/icon/camera-five.svg"
+				},
+				{
+					id: 403,
+					typeId: 4,
+					name: "终端设备",
+					image: "../../static/icon/earth.svg"
+				},
+				{
+					id: 404,
+					typeId: 4,
+					name: "无线设备",
+					image: "../../static/icon/wifi.svg"
+				}
+			]
+		},
+		bridges: []
+	})
 
 	const canvasElement = ref({})
 
@@ -36,19 +102,27 @@
 		let height = canvasElement.value.height
 		let centerX = width / 2;
 		let centerY = height / 2;
+		ctxInfo.value = {
+			centerX: centerX,
+			centerY: centerY
+		}
 		// 移动画布的原点到中心点
 		ctx.translate(centerX, centerY);
 
-		drawRect(ctx, -20, -30, 10, 10)
-		drawRect(ctx, 40, 50, 100, 80)
-		// 绘制线条
-		drawLine(ctx, 10, 10, 40, 50)
-		// 绘制文字
-		drawText(ctx, "文字内容", 70, 144)
-		// 绘制（网络）图片
-		drawImage(ctx, 'https://img0.baidu.com/it/u=4084417384,1180584271&fm=253&fmt=auto&app=138&f=JPEG?w=794&h=496',
-			30, 10)
-		drawImage(ctx, '../../static/logo.png', -120, -10, 60, 60); //绘制图
+		drawNetwork(ctx)
+		drawGateway(ctx)
+		drawSwitch(ctx)
+		drawDevice(ctx)
+		// drawRect(ctx, 0, 0, 10, 10)
+		// drawRect(ctx, 40, 50, 100, 80)
+		// // 绘制线条
+		// drawLine(ctx, 10, 10, 40, 50)
+		// // 绘制文字
+		// drawText(ctx, "文字内容", 70, 144)
+		// // 绘制（网络）图片
+		// drawImage(ctx, 'https://img0.baidu.com/it/u=4084417384,1180584271&fm=253&fmt=auto&app=138&f=JPEG?w=794&h=496',
+		// 	30, 10)
+		// drawImage(ctx, '../../static/logo.png', -120, -10, 60, 60); //绘制图
 
 		// 绘制到画布
 		ctx.draw()
@@ -99,11 +173,51 @@
 		ctx.setFillStyle(color)
 		ctx.fillText(text, x, y)
 	}
+
+
+	/**
+	 * 绘制入网网络的方法
+	 */
+	const drawNetwork = (ctx) => {
+		drawImage(ctx, props.root[0].image, 0 - imageWidth / 2, -ctxInfo.value.centerY + imageHeight / 2, imageWidth,
+			imageHeight);
+	}
+
+	/**
+	 * 绘制网关
+	 */
+	const drawGateway = (ctx) => {
+		drawImage(ctx, props.gateway[0].image, 0 - imageWidth / 2, -(ctxInfo.value.centerY / 2) + imageHeight / 2,
+			imageWidth,
+			imageHeight);
+	}
+
+	/**
+	 * 绘制交换机
+	 */
+	const drawSwitch = (ctx) => {
+		drawImage(ctx, props.switch[0].image, 0 - imageWidth / 2, 0 + imageHeight / 2, imageWidth,
+			imageHeight);
+	}
+
+	/**
+	 * 绘制设备
+	 */
+
+	const drawDevice = (ctx) => {
+		// let total = props.devices.length
+		let total = 1
+		for (let i = 0; i < total; i++) {
+			drawImage(ctx, props.devices[i].image, 0 - imageWidth / 2, ctxInfo.value.centerY - imageHeight * 2,
+				imageWidth,
+				imageHeight);
+		}
+	}
 </script>
 <style scoped>
 	.canvas {
-		width: 350px;
-		height: 400px;
+		width: 375px;
+		height: 600px;
 		border: 1px solid #000;
 		margin: 0 auto;
 	}
