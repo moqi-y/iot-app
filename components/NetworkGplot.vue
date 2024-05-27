@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<canvas class="canvas" ref="canvasRef" canvas-id="myCanvas" id="myCanvasId"></canvas>
+		<canvas class="canvas" ref="canvasRef" canvas-id="myCanvas" id="myCanvasId" @tap="onTap"></canvas>
 	</view>
 </template>
 <script setup>
@@ -17,6 +17,11 @@
 	// 画布信息
 	const ctxInfo = ref({})
 
+	//设备位置信息
+	const devicePositions = ref({
+		network: [-10, 20, ],
+		device: []
+	})
 
 	const props = defineProps({
 		root: {
@@ -215,6 +220,17 @@
 		let total = props.devices.length
 		// let total = 1
 		for (let i = 0; i < total; i++) {
+			// 计算设备的位置
+			let deviceX = computeOffsets(total)[i] - imageWidth / 2;
+			let deviceY = ctxInfo.value.centerY - imageHeight * 2;
+
+			// 保存设备的位置信息
+			devicePositions.value[props.devices[i].id] = {
+				x: deviceX,
+				y: deviceY,
+				width: imageWidth,
+				height: imageHeight
+			};
 			drawImage(ctx, props.devices[i].image, computeOffsets(total)[i] - imageWidth / 2, ctxInfo.value.centerY -
 				imageHeight * 2,
 				imageWidth,
@@ -228,7 +244,7 @@
 	 * num {number} 设备数量 
 	 */
 	const computeOffsets = (num) => {
-		// 假设每个设备之间的间隔是20个单位
+		// 假设每个设备之间的间隔是60个单位
 		const distanceBetweenPoints = 60;
 		// 创建一个空数组来存储偏移量
 		let offsets = [];
@@ -258,7 +274,37 @@
 				computeOffsets(props.devices.length)[i], ctxInfo.value.centerY - imageHeight * 2)
 		}
 	}
-	
+
+	/**
+	 * 点击事件
+	 */
+	const onTap = (e) => {
+		// 获取点击事件的坐标
+		console.log("e:", e.detail);
+		console.log("devicePositions:", devicePositions.value);
+		const touchX = e.detail.x - ctxInfo.value.centerX;
+		const touchY = e.detail.y - ctxInfo.value.centerY;
+		// 遍历设备位置信息，检查点击坐标是否在某个设备的边界内
+		for (const id in devicePositions.value) {
+			const position = devicePositions.value[id];
+			if (touchX >= position.x && touchX <= position.x + position.width &&
+				touchY >= position.y && touchY <= position.y + position.height) {
+				// 如果点击在设备的边界内，返回对应的id和typeId
+				const typeId = props.devices.find(device => device.id === parseInt(id)).typeId;
+				console.log(`点击的设备信息：id: ${id}, typeId: ${typeId}`);
+				// 这里可以添加其他逻辑，比如调用一个方法来处理点击事件
+				// handleDeviceClick(id, typeId);
+				break; // 点击到一个设备后退出循环
+			}
+		}
+	};
+
+	// 处理点击事件的函数
+	const handleDeviceClick = (id, typeId) => {
+		// 根据id和typeId执行相应的操作
+		console.log(`Device ${id} with typeId ${typeId} was clicked.`);
+		// ...其他逻辑
+	};
 </script>
 <style scoped>
 	.canvas {
