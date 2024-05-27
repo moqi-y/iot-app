@@ -10,11 +10,13 @@
 		defineProps
 	} from "vue";
 
+	let imageWidth = 50
+	let imageHeight = imageWidth
+	let lineHeight = 40
+
 	// 画布信息
 	const ctxInfo = ref({})
 
-	let imageWidth = 50
-	let imageHeight = imageWidth
 
 	const props = defineProps({
 		root: {
@@ -113,6 +115,7 @@
 		drawGateway(ctx)
 		drawSwitch(ctx)
 		drawDevice(ctx)
+		drawBridges(ctx)
 		// drawRect(ctx, 0, 0, 10, 10)
 		// drawRect(ctx, 40, 50, 100, 80)
 		// // 绘制线条
@@ -181,6 +184,7 @@
 	const drawNetwork = (ctx) => {
 		drawImage(ctx, props.root[0].image, 0 - imageWidth / 2, -ctxInfo.value.centerY + imageHeight / 2, imageWidth,
 			imageHeight);
+		drawText(ctx, props.root[0].name, 0 - imageWidth / 2, -ctxInfo.value.centerY + imageHeight + lineHeight)
 	}
 
 	/**
@@ -190,6 +194,8 @@
 		drawImage(ctx, props.gateway[0].image, 0 - imageWidth / 2, -(ctxInfo.value.centerY / 2) + imageHeight / 2,
 			imageWidth,
 			imageHeight);
+		drawText(ctx, props.gateway[0].name, 0 - imageWidth / 2, -(ctxInfo.value.centerY / 2) + imageHeight +
+			lineHeight)
 	}
 
 	/**
@@ -198,6 +204,7 @@
 	const drawSwitch = (ctx) => {
 		drawImage(ctx, props.switch[0].image, 0 - imageWidth / 2, 0 + imageHeight / 2, imageWidth,
 			imageHeight);
+		drawText(ctx, props.switch[0].name, 0 - imageWidth / 2, imageHeight + lineHeight)
 	}
 
 	/**
@@ -211,13 +218,29 @@
 			drawImage(ctx, props.devices[i].image, 0 - imageWidth / 2, ctxInfo.value.centerY - imageHeight * 2,
 				imageWidth,
 				imageHeight);
+			drawText(ctx, props.devices[0].name, 0 - imageWidth / 2, ctxInfo.value.centerY - lineHeight + 5)
 		}
+	}
+
+
+	/**
+	 * 绘制连线
+	 */
+	const drawBridges = (ctx) => {
+		let startX = 0
+		drawLine(ctx, startX, -ctxInfo.value.centerY + imageHeight + lineHeight,
+			startX, -(ctxInfo.value.centerY / 2) + imageHeight)
+		drawLine(ctx, startX, -(ctxInfo.value.centerY / 2) + imageHeight + lineHeight,
+			startX, imageHeight)
+		drawLine(ctx, startX, imageHeight + lineHeight,
+			startX, ctxInfo.value.centerY - imageHeight * 2)
+
 	}
 </script>
 <style scoped>
 	.canvas {
 		width: 375px;
-		height: 600px;
+		height: 80vh;
 		border: 1px solid #000;
 		margin: 0 auto;
 	}
