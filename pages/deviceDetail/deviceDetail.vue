@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<NetworkGplot @handleClick="testfn"></NetworkGplot>
+		<NetworkGplot style="height: 500px;" @handleClick="testfn"></NetworkGplot>
 	</view>
 </template>
 
