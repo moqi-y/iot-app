@@ -18,10 +18,9 @@
 	const ctxInfo = ref({})
 
 	//设备位置信息
-	const devicePositions = ref({
-		network: [-10, 20, ],
-		device: []
-	})
+	const devicePositions = ref({})
+
+	const emits = defineEmits(['handleClick'])
 
 	const props = defineProps({
 		root: {
@@ -48,7 +47,7 @@
 				id: 301,
 				typeId: 3,
 				name: "网络交换机",
-				image: "../../static/icon/switch-device.webp"
+				image: "../../static/icon/wangluojiaohuanji.svg"
 			}]
 		},
 		devices: {
@@ -190,6 +189,16 @@
 		drawImage(ctx, props.root[0].image, 0 - imageWidth / 2, -ctxInfo.value.centerY + imageHeight / 2, imageWidth,
 			imageHeight);
 		drawText(ctx, props.root[0].name, 0 - imageWidth / 2, -ctxInfo.value.centerY + imageHeight + lineHeight)
+		let total = props.root.length
+		for (let i = 0; i < total; i++) {
+			// 保存设备的位置信息
+			devicePositions.value[props.root[i].id] = {
+				x: 0 - imageWidth / 2,
+				y: -ctxInfo.value.centerY + imageHeight / 2,
+				width: imageWidth,
+				height: imageHeight
+			};
+		}
 	}
 
 	/**
@@ -201,6 +210,16 @@
 			imageHeight);
 		drawText(ctx, props.gateway[0].name, 0 - imageWidth / 2, -(ctxInfo.value.centerY / 2) + imageHeight +
 			lineHeight)
+		let total = props.gateway.length
+		for (let i = 0; i < total; i++) {
+			// 保存设备的位置信息
+			devicePositions.value[props.gateway[i].id] = {
+				x: 0 - imageWidth / 2,
+				y: -(ctxInfo.value.centerY / 2) + imageHeight / 2,
+				width: imageWidth,
+				height: imageHeight
+			};
+		}
 	}
 
 	/**
@@ -210,6 +229,16 @@
 		drawImage(ctx, props.switch[0].image, 0 - imageWidth / 2, 0 + imageHeight / 2, imageWidth,
 			imageHeight);
 		drawText(ctx, props.switch[0].name, 0 - imageWidth / 2, imageHeight + lineHeight)
+		let total = props.switch.length
+		for (let i = 0; i < total; i++) {
+			// 保存设备的位置信息
+			devicePositions.value[props.switch[i].id] = {
+				x: 0 - imageWidth / 2,
+				y: 0 + imageHeight / 2,
+				width: imageWidth,
+				height: imageHeight
+			};
+		}
 	}
 
 
@@ -218,7 +247,6 @@
 	 */
 	const drawDevice = (ctx) => {
 		let total = props.devices.length
-		// let total = 1
 		for (let i = 0; i < total; i++) {
 			// 计算设备的位置
 			let deviceX = computeOffsets(total)[i] - imageWidth / 2;
@@ -235,7 +263,8 @@
 				imageHeight * 2,
 				imageWidth,
 				imageHeight);
-			drawText(ctx, props.devices[0].name, 0 - imageWidth / 2, ctxInfo.value.centerY - lineHeight + 5)
+			drawText(ctx, props.devices[i].name, computeOffsets(total)[i] - imageWidth / 2, ctxInfo.value.centerY -
+				lineHeight + 5)
 		}
 	}
 
@@ -280,8 +309,6 @@
 	 */
 	const onTap = (e) => {
 		// 获取点击事件的坐标
-		console.log("e:", e.detail);
-		console.log("devicePositions:", devicePositions.value);
 		const touchX = e.detail.x - ctxInfo.value.centerX;
 		const touchY = e.detail.y - ctxInfo.value.centerY;
 		// 遍历设备位置信息，检查点击坐标是否在某个设备的边界内
@@ -290,20 +317,40 @@
 			if (touchX >= position.x && touchX <= position.x + position.width &&
 				touchY >= position.y && touchY <= position.y + position.height) {
 				// 如果点击在设备的边界内，返回对应的id和typeId
-				const typeId = props.devices.find(device => device.id === parseInt(id)).typeId;
+				// const typeId = props.devices.find(device => device.id === parseInt(id)).typeId;
+				const typeId = switchType(id).typeId;
 				console.log(`点击的设备信息：id: ${id}, typeId: ${typeId}`);
 				// 这里可以添加其他逻辑，比如调用一个方法来处理点击事件
-				// handleDeviceClick(id, typeId);
+				handleDeviceClick(switchType(id));
 				break; // 点击到一个设备后退出循环
 			}
 		}
 	};
 
 	// 处理点击事件的函数
-	const handleDeviceClick = (id, typeId) => {
-		// 根据id和typeId执行相应的操作
-		console.log(`Device ${id} with typeId ${typeId} was clicked.`);
-		// ...其他逻辑
+	const handleDeviceClick = (obj) => {
+		emits('handleClick', obj);
+	};
+
+	// 通用查找函数
+	const findItemById = (array, id) => {
+		return array.find(item => item.id == id) || {};
+	};
+
+	// 包含所有需要搜索的属性的数组
+	const searchProps = [props.root, props.gateway, props.switch, props.devices];
+
+	// 优化后的 switchType 函数
+	const switchType = (id) => {
+		// 遍历 searchProps 数组，使用 findItemById 函数查找 id
+		for (const prop of searchProps) {
+			const item = findItemById(prop, id);
+			if (Object.keys(item).length > 0) { // 如果找到非空对象，则返回
+				return item;
+			}
+		}
+		// 如果所有数组中都没有找到，则返回空对象
+		return {};
 	};
 </script>
 <style scoped>
