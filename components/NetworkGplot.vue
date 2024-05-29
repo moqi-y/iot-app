@@ -10,10 +10,12 @@
 		defineProps
 	} from "vue";
 
-	let imageWidth = 50
+	let imageWidth = 40
 	let imageHeight = imageWidth
-	let lineHeight = 40
+	let lineHeight = 30
 
+	// 是否重新绘制
+	const isReset = ref(false)
 	// 画布信息
 	const ctxInfo = ref({})
 
@@ -142,8 +144,8 @@
 	 */
 	const drawLine = (ctx, startX, startY, endX, endY) => {
 		ctx.beginPath();
-		ctx.lineWidth = "3";
-		ctx.strokeStyle = "#00aaff"; // 红色路径
+		ctx.lineWidth = "2";
+		ctx.strokeStyle = "#00aaff"; // 线条路径颜色
 		ctx.moveTo(startX, startY);
 		ctx.lineTo(endX, endY);
 		ctx.stroke(); // 进行绘制
@@ -352,6 +354,20 @@
 		// 如果所有数组中都没有找到，则返回空对象
 		return {};
 	};
+
+
+	/**
+	 * 重新绘制的方法
+	 */
+	const resetDraw = () => {
+		let ctx = uni.createCanvasContext('myCanvas')
+		ctx.draw()
+		init()
+	}
+
+	defineExpose({
+		resetDraw
+	})
 </script>
 <style scoped>
 	.canvas {
