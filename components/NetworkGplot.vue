@@ -7,9 +7,9 @@
 	import {
 		ref,
 		onMounted,
-		defineProps
+		defineProps,
+		nextTick
 	} from "vue";
-
 	let imageWidth = 40
 	let imageHeight = imageWidth
 	let lineHeight = 30
@@ -39,7 +39,7 @@
 			default: [{
 				id: 201,
 				typeId: 2,
-				name: "网关-Gate-1",
+				name: "网关-Gate",
 				image: "../../static/icon/router.svg"
 			}]
 		},
@@ -207,11 +207,6 @@
 	 * 绘制网关
 	 */
 	const drawGateway = (ctx) => {
-		drawImage(ctx, props.gateway[0].image, 0 - imageWidth / 2, -(ctxInfo.value.centerY / 2) + imageHeight / 2,
-			imageWidth,
-			imageHeight);
-		drawText(ctx, props.gateway[0].name, 0 - imageWidth / 2, -(ctxInfo.value.centerY / 2) + imageHeight +
-			lineHeight)
 		let total = props.gateway.length
 		for (let i = 0; i < total; i++) {
 			// 保存设备的位置信息
@@ -222,15 +217,19 @@
 				height: imageHeight
 			};
 		}
+
+		drawImage(ctx, props.gateway[0].image, 0 - imageWidth / 2, -(ctxInfo.value.centerY / 2) + imageHeight / 2,
+			imageWidth,
+			imageHeight);
+		drawText(ctx, `${props.gateway[0].name}【1/${total}】`, 0 - imageWidth / 2, -(ctxInfo.value.centerY / 2) +
+			imageHeight +
+			lineHeight)
 	}
 
 	/**
 	 * 绘制交换机
 	 */
 	const drawSwitch = (ctx) => {
-		drawImage(ctx, props.switch[0].image, 0 - imageWidth / 2, 0 + imageHeight / 2, imageWidth,
-			imageHeight);
-		drawText(ctx, props.switch[0].name, 0 - imageWidth / 2, imageHeight + lineHeight)
 		let total = props.switch.length
 		for (let i = 0; i < total; i++) {
 			// 保存设备的位置信息
@@ -241,6 +240,9 @@
 				height: imageHeight
 			};
 		}
+		drawImage(ctx, props.switch[0].image, 0 - imageWidth / 2, 0 + imageHeight / 2, imageWidth,
+			imageHeight);
+		drawText(ctx, `${props.switch[0].name}【1/${total}】`, 0 - imageWidth / 2, imageHeight + lineHeight)
 	}
 
 
@@ -371,9 +373,9 @@
 </script>
 <style scoped>
 	.canvas {
-		width: 100%;
+		width: 99%;
 		height: 100%;
-		border: 1px solid #000;
+		border: 1px solid #dedede;
 		margin: 0 auto;
 	}
 </style>

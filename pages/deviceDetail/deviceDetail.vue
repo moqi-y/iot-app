@@ -1,6 +1,6 @@
 <template>
 	<view class="box">
-		<NetworkGplot ref="networkGplotRef" style="height: 400px;" @handleClick="testfn"></NetworkGplot>
+		<NetworkGplot ref="networkGplotRef" style="height: 600px;" @handleClick="testfn"></NetworkGplot>
 		<uni-icons class="icon" @tap="onreset" type="refreshempty" size="28" color="#679ef0"></uni-icons>
 	</view>
 </template>
