@@ -2,8 +2,8 @@
 	<view class="content">
 		<!-- 距离顶部的距离 刚好留出状态栏即可 即statusBarHeight -->
 		<view class="topNav" :style="{height:navHeight+'px',paddingTop:statusBarHeight+'px'}">
-			<view class="nav-left">
-				<uni-icons v-show="left.icon" class="icon" :type="left.icon" size="24" color="#fff"></uni-icons>
+			<view class="nav-left" @tap="$emit('onBack')">
+				<uni-icons v-show="left.icon" class="icon" :type="left.icon" size="24"></uni-icons>
 				<view v-show="left.title" class="left-title">
 					{{left.title}}
 				</view>
@@ -14,7 +14,7 @@
 				<view class="right-title" v-show="right.title">
 					{{right.title}}
 				</view>
-				<uni-icons v-show="right.icon" class="icon" :type="right.icon" size="24" color="#fff"></uni-icons>
+				<uni-icons v-show="right.icon" class="icon" :type="right.icon" size="24"></uni-icons>
 			</view>
 		</view>
 	</view>
@@ -83,9 +83,8 @@
 		justify-content: center;
 		align-items: center;
 		padding-top: calc(10px + var(--status-bar-height));
-		color: #FFFFFF;
+		color: #000;
 		font-size: 36rpx;
-		color: #ffeb3b;
 		margin-left: -20px;
 	}
 
@@ -107,9 +106,8 @@
 		justify-content: center;
 		align-items: center;
 		padding-top: calc(10px + var(--status-bar-height));
-		color: #FFFFFF;
+		color: #000;
 		font-size: 36rpx;
-		color: #ffeb3b;
 		margin-right: -10px;
 	}
 
