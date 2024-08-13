@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="head">
-			<view class="nav-bar">个人中心</view>
+			<TopBar></TopBar>
 			<view class="info">
 				<view class="user">
 					<image src="/static/images/user.jpg" mode="aspectFill"></image>
@@ -68,17 +68,9 @@
 		</view>
 	</view>
 </template>
-<script>
-export default {
-	data() {
-		return {
+<script setup>
+	import TopBar from '../../components/TopBar.vue'
 
-		}
-	},
-	methods: {
-
-	}
-}
 </script>
 
 <style lang="scss" scoped>
@@ -86,14 +78,6 @@ page {
 	background-color: #f8f8f8;
 }
 
-.nav-bar {
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	font-weight: 600;
-	padding-top: calc(20px + var(--status-bar-height));
-	color: #FFFFFF;
-}
 
 .head {
 	position: relative;

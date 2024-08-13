@@ -249,3 +249,18 @@
 		max-width: 600px;
 	}
 </style>
+
+<!-- <template>
+	<DcmView :imgurl="imgurl" :toolType="toolType" width="750rpx" height="1000rpx"></DcmView>
+</template>
+
+<script setup>
+	import {ref} from "vue"
+	import DcmView from '../../components/yuanzhen-dcmView-Vue3/DcmView.vue' //引入组件
+	const imgurl =ref("http://192.168.210.212:8080/0af07f64d14d6b0451036cc742a96fbf.dcm")
+	const toolType =ref("RectangleRoi")
+</script>
+
+<style>
+	
+</style -->>
