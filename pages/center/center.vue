@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="head">
-			<TopBar></TopBar>
+			<TopBar :left={} :right={} center="个人中心"></TopBar>
 			<view class="info">
 				<view class="user">
 					<image src="/static/images/user.jpg" mode="aspectFill"></image>

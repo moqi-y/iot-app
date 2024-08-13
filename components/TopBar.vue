@@ -3,11 +3,20 @@
 		<!-- 距离顶部的距离 刚好留出状态栏即可 即statusBarHeight -->
 		<view class="topNav" :style="{height:navHeight+'px',paddingTop:statusBarHeight+'px'}">
 			<view class="nav-left">
-				<!-- 雪天前端 -->
+					<uni-icons v-show="left.icon" class="icon" :type="left.icon" size="24"
+					color="#fff"></uni-icons>
+				<view v-show="left.title" class="left-title">
+					{{left.title}}
+				</view>
 			</view>
-			<view class="nav-center">个人中心</view>
-			<view class="nav-left">
-				<!-- <input type="text" placeholder="请搜索" placeholder-class="placClass" /> -->
+			
+			<view class="nav-center">{{center}}</view>
+			<view class="nav-right">
+				<view class="right-title" v-show="right.title">
+					{{right.title}}
+				</view>
+				<uni-icons v-show="right.icon" class="icon" :type="right.icon" size="24"
+					color="#fff"></uni-icons>
 			</view>
 		</view>
 	</view>
@@ -17,7 +26,29 @@
 	import {
 		ref,onMounted
 	} from 'vue';
-
+	
+	const props = defineProps({
+		left: {
+			type: Object,
+			default: {
+				icon: 'back',
+				title: '返回'
+			}
+		},
+		center: {
+			type: String,
+			default:"标题"
+		
+		},
+		right: {
+			type: Object,
+			default: {
+				icon: 'bars',
+				title: '更多'
+			}
+		}
+	})
+	
 	const navHeight = ref("");  	//导航栏高度
 	const statusBarHeight =ref("");  //状态栏高度
 	
@@ -33,31 +64,27 @@
 <style scoped>
 	.topNav {
 		height: 100rpx;
-		/* background-color: #00aa7f; */
 		background-color: transparent;
 		display: flex;
-		justify-content: space-around;
+		justify-content: space-between;
 		align-items: center;
 		padding: 0 20rpx;
 		box-sizing: border-box;
 	}
 
 	.nav-left {
-		font-size: 36rpx;
-		font-weight: 600;
-		color: #ffeb3b;
-		margin-right: 30rpx;
-		font-style: italic;
-	}
-	
-	.nav-left{
 		width: 100%;
 		display: flex;
+		flex-direction: row;
 		justify-content: center;
-		font-weight: 600;
+		align-items: center;
 		padding-top: calc(10px + var(--status-bar-height));
 		color: #FFFFFF;
+		font-size: 36rpx;
+		color: #ffeb3b;
+		margin-left: -20px;
 	}
+	
 	
 	.nav-center{
 		width: 100%;
@@ -66,6 +93,20 @@
 		padding-top: calc(10px + var(--status-bar-height));
 		color: #FFFFFF;
 		font-weight: 600;
+		font-size: 36rpx;
+	}
+	
+	.nav-right{
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		padding-top: calc(10px + var(--status-bar-height));
+		color: #FFFFFF;
+		font-size: 36rpx;
+		color: #ffeb3b;
+		margin-right: -10px;
 	}
 		
 	.nav-left input {
