@@ -3,20 +3,18 @@
 		<!-- 距离顶部的距离 刚好留出状态栏即可 即statusBarHeight -->
 		<view class="topNav" :style="{height:navHeight+'px',paddingTop:statusBarHeight+'px'}">
 			<view class="nav-left">
-					<uni-icons v-show="left.icon" class="icon" :type="left.icon" size="24"
-					color="#fff"></uni-icons>
+				<uni-icons v-show="left.icon" class="icon" :type="left.icon" size="24" color="#fff"></uni-icons>
 				<view v-show="left.title" class="left-title">
 					{{left.title}}
 				</view>
 			</view>
-			
+
 			<view class="nav-center">{{center}}</view>
 			<view class="nav-right">
 				<view class="right-title" v-show="right.title">
 					{{right.title}}
 				</view>
-				<uni-icons v-show="right.icon" class="icon" :type="right.icon" size="24"
-					color="#fff"></uni-icons>
+				<uni-icons v-show="right.icon" class="icon" :type="right.icon" size="24" color="#fff"></uni-icons>
 			</view>
 		</view>
 	</view>
@@ -24,9 +22,10 @@
 
 <script setup>
 	import {
-		ref,onMounted
+		ref,
+		onMounted
 	} from 'vue';
-	
+
 	const props = defineProps({
 		left: {
 			type: Object,
@@ -37,8 +36,8 @@
 		},
 		center: {
 			type: String,
-			default:"标题"
-		
+			default: "标题"
+
 		},
 		right: {
 			type: Object,
@@ -48,17 +47,22 @@
 			}
 		}
 	})
-	
-	const navHeight = ref("");  	//导航栏高度
-	const statusBarHeight =ref("");  //状态栏高度
-	
-	onMounted(()=>{
-		let { statusBarHeight,system } = uni.getSystemInfoSync()
+
+	const navHeight = ref(""); //导航栏高度
+	const statusBarHeight = ref(""); //状态栏高度
+
+	const getSystemHeight = async () => {
+		let {
+			statusBarHeight,
+			system
+		} = uni.getSystemInfoSync()
 		statusBarHeight.value = statusBarHeight;
-		navHeight.value = statusBarHeight + (system.indexOf('iOS') > -1 ? 40 : 44)	  
+		navHeight.value = statusBarHeight + (system.indexOf('iOS') > -1 ? 40 : 44)
+	}
+
+	onMounted(() => {
+		getSystemHeight()
 	})
-	
-	
 </script>
 
 <style scoped>
@@ -84,9 +88,9 @@
 		color: #ffeb3b;
 		margin-left: -20px;
 	}
-	
-	
-	.nav-center{
+
+
+	.nav-center {
 		width: 100%;
 		display: flex;
 		justify-content: center;
@@ -95,8 +99,8 @@
 		font-weight: 600;
 		font-size: 36rpx;
 	}
-	
-	.nav-right{
+
+	.nav-right {
 		width: 100%;
 		display: flex;
 		flex-direction: row;
@@ -108,7 +112,7 @@
 		color: #ffeb3b;
 		margin-right: -10px;
 	}
-		
+
 	.nav-left input {
 		width: 60%;
 		height: 62rpx;
