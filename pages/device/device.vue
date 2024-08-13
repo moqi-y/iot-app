@@ -178,8 +178,7 @@ const onMenuItem = (item) => {
 const onTapDeviceCard=(e)=>{
 	console.log("e",e);
 	uni.navigateTo({
-		url:`/pages/deviceDetail/deviceDetail?deviceId=${e.id}`
-		
+		url:`/pages/deviceDetail/deviceDetail?deviceId=${e.id}&typeName=${e.typeName}&deviceName=${e.deviceName}`
 	})
 }
 

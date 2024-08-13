@@ -70,7 +70,7 @@ const getBluetoothList = (res) => {
 	uni.getBluetoothDevices({
 		success(res) {
 			console.log(res)
-			devicesList.value = res.devices
+			devicesList.value.push(res.devices)
 		},
 		fail(err) {
 			console.log(err);

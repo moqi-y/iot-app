@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
 		<!-- 距离顶部的距离 刚好留出状态栏即可 即statusBarHeight -->
-		<view class="topNav" :style="{height:navHeight+'px',paddingTop:statusBarHeight+'px'}">
+		<view class="topNav" :style="{height:navHeight+'px',paddingTop:myStatusBarHeight+'px'}">
 			<view class="nav-left" @tap="$emit('onBack')">
 				<uni-icons v-show="left.icon" class="icon" :type="left.icon" size="24"></uni-icons>
 				<view v-show="left.title" class="left-title">
@@ -25,7 +25,11 @@
 		ref,
 		onMounted
 	} from 'vue';
-
+	import {
+		onLoad
+	} from "@dcloudio/uni-app";
+	const navHeight = ref(null); //导航栏高度
+	const myStatusBarHeight = ref(null); //状态栏高度
 	const props = defineProps({
 		left: {
 			type: Object,
@@ -48,20 +52,28 @@
 		}
 	})
 
-	const navHeight = ref(""); //导航栏高度
-	const statusBarHeight = ref(""); //状态栏高度
 
-	const getSystemHeight = async () => {
+
+	// const getSystemHeight = async () => {
+	// 	let {
+	// 		statusBarHeight,
+	// 		system
+	// 	} = uni.getSystemInfoSync()
+	// 	myStatusBarHeight.value = statusBarHeight;
+	// 	navHeight.value = statusBarHeight + (system.indexOf('iOS') > -1 ? 40 : 44)
+	// }
+
+	// onMounted(() => {
+	// 	getSystemHeight()
+	// })
+	
+	onLoad(()=>{
 		let {
 			statusBarHeight,
 			system
 		} = uni.getSystemInfoSync()
-		statusBarHeight.value = statusBarHeight;
+		myStatusBarHeight.value = statusBarHeight;
 		navHeight.value = statusBarHeight + (system.indexOf('iOS') > -1 ? 40 : 44)
-	}
-
-	onMounted(() => {
-		getSystemHeight()
 	})
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-	<TopBar :left='{title:"返回",icon:"back"}' :right='{}' center='设备详情' @onBack="onBack"></TopBar>
+	<wd-navbar :title="deviceInfo?.deviceName" left-text="返回" left-arrow @click-left="onBack"></wd-navbar>
 	<view class="box">
 		<NetworkGplot ref="networkGplotRef" style="height: 600px;" @handleClick="testfn"></NetworkGplot>
 		<uni-icons class="icon" @click="onReset" type="refreshempty" size="28" color="#679ef0"></uni-icons>
@@ -11,12 +11,15 @@
 		ref,
 		onMounted
 	} from "vue";
-
+	import {
+		onLoad
+	} from "@dcloudio/uni-app";
 	import NetworkGplot from '../../components/NetworkGplot.vue'
 	import TopBar from '../../components/TopBar.vue'
 	const root = ref()
 	const edges = ref()
 	const networkGplotRef = ref(null)
+	const deviceInfo =ref({})
 	const testfn = (e) => {
 		console.log("节点被点击：", e);
 	}
@@ -33,6 +36,11 @@
 			delta: 1
 		})
 	}
+
+	onLoad((e) => {
+		deviceInfo.value = e
+		console.log("e:",e);
+	})
 </script>
 
 <style>
