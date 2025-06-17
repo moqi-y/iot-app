@@ -30,7 +30,12 @@
 - 通知提醒：当设备状态异常时，及时通知用户。
 
 ## 项目截图
-![项目截图](https://github.com/your-username/iot-app/blob/main/screenshot.png)
+![项目截图](https://github.com/moqi-y/iot-app/blob/master/static/project/Snipaste_2025-06-17_16-25-29.png)
+![项目截图](https://github.com/moqi-y/iot-app/blob/master/static/project/Snipaste_2025-06-17_16-25-52.png)
+![项目截图](https://github.com/moqi-y/iot-app/blob/master/static/project/Snipaste_2025-06-17_16-26-06.png)
+![项目截图](https://github.com/moqi-y/iot-app/blob/master/static/project/Snipaste_2025-06-17_16-26-18.png)
+![项目截图](https://github.com/moqi-y/iot-app/blob/master/static/project/Snipaste_2025-06-17_16-26-49.png)
+![项目截图](https://github.com/moqi-y/iot-app/blob/master/static/project/Snipaste_2025-06-17_16-27-12.png)
 
 
 ## 免责声明
