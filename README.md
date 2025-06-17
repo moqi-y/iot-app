@@ -48,8 +48,3 @@
 1. Fork项目到您的GitHub账户。
 2. 创建一个新的分支进行开发。
 3. 提交您的更改并发起一个Pull Request。
-
-## 许可证
-
-iot-app项目采用MIT许可证。有关详细信息，请查看LICENSE文件。
-
