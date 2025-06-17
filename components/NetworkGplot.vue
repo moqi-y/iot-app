@@ -8,6 +8,7 @@
 		ref,
 		onMounted,
 		defineProps,
+		defineEmits,
 		nextTick
 	} from "vue";
 	let imageWidth = 40

@@ -20,6 +20,7 @@
 	const edges = ref()
 	const networkGplotRef = ref(null)
 	const deviceInfo =ref({})
+	
 	const testfn = (e) => {
 		console.log("节点被点击：", e);
 	}
@@ -39,7 +40,6 @@
 
 	onLoad((e) => {
 		deviceInfo.value = e
-		console.log("e:",e);
 	})
 </script>
 
