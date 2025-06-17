@@ -31,10 +31,15 @@
 
 ## 项目截图
 ![项目截图](https://github.com/moqi-y/iot-app/blob/master/static/project/Snipaste_2025-06-17_16-25-29.png)
+
 ![项目截图](https://github.com/moqi-y/iot-app/blob/master/static/project/Snipaste_2025-06-17_16-25-52.png)
+
 ![项目截图](https://github.com/moqi-y/iot-app/blob/master/static/project/Snipaste_2025-06-17_16-26-06.png)
+
 ![项目截图](https://github.com/moqi-y/iot-app/blob/master/static/project/Snipaste_2025-06-17_16-26-18.png)
+
 ![项目截图](https://github.com/moqi-y/iot-app/blob/master/static/project/Snipaste_2025-06-17_16-26-49.png)
+
 ![项目截图](https://github.com/moqi-y/iot-app/blob/master/static/project/Snipaste_2025-06-17_16-27-12.png)
 
 
