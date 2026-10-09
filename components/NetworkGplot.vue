@@ -9,6 +9,7 @@
 		onMounted,
 		defineProps,
 		defineEmits,
+		getCurrentInstance,
 		nextTick
 	} from "vue";
 	let imageWidth = 40
@@ -87,16 +88,24 @@
 	const canvasElement = ref({})
 
 	onMounted(() => {
-		init()
+		// 等待 DOM/canvas 完成布局后再测量尺寸，否则可能拿到 0 宽高
+		nextTick(() => {
+			init()
+		})
 	})
 
 	const init = () => {
-		const query = uni.createSelectorQuery().in(this);
+		// <script setup> 中没有 this，组件内获取节点需用 getCurrentInstance().proxy
+		const instance = getCurrentInstance()
+		const query = uni.createSelectorQuery().in(instance?.proxy || instance);
 		query
 			.select("#myCanvasId")
 			.boundingClientRect((data) => {
+				if (!data || !data.width || !data.height) {
+					console.warn("canvas 尺寸获取失败，跳过绘制");
+					return;
+				}
 				canvasElement.value = data
-				console.log("得到布局位置信息" + JSON.stringify(data));
 				initDraw()
 			})
 			.exec();
@@ -115,6 +124,8 @@
 			centerX: centerX,
 			centerY: centerY
 		}
+		// 每次重绘前清空命中区域，避免残留旧数据导致点击命中错误节点
+		devicePositions.value = {}
 		// 移动画布的原点到中心点
 		ctx.translate(centerX, centerY);
 
@@ -252,9 +263,11 @@
 	 */
 	const drawDevice = (ctx) => {
 		let total = props.devices.length
+		// 偏移量只与设备数量有关，循环外计算一次即可
+		const offsets = computeOffsets(total)
 		for (let i = 0; i < total; i++) {
 			// 计算设备的位置
-			let deviceX = computeOffsets(total)[i] - imageWidth / 2;
+			let deviceX = offsets[i] - imageWidth / 2;
 			let deviceY = ctxInfo.value.centerY - imageHeight * 2;
 
 			// 保存设备的位置信息
@@ -264,11 +277,10 @@
 				width: imageWidth,
 				height: imageHeight
 			};
-			drawImage(ctx, props.devices[i].image, computeOffsets(total)[i] - imageWidth / 2, ctxInfo.value.centerY -
-				imageHeight * 2,
+			drawImage(ctx, props.devices[i].image, deviceX, deviceY,
 				imageWidth,
 				imageHeight);
-			drawText(ctx, props.devices[i].name, computeOffsets(total)[i] - imageWidth / 2, ctxInfo.value.centerY -
+			drawText(ctx, props.devices[i].name, deviceX, ctxInfo.value.centerY -
 				lineHeight + 5)
 		}
 	}
@@ -343,12 +355,14 @@
 	};
 
 	// 包含所有需要搜索的属性的数组
-	const searchProps = [props.root, props.gateway, props.switch, props.devices];
+	// 使用 getter 而非一次性常量：props 可能在挂载后才异步更新，
+	// 缓存数组会导致点击命中查找始终使用初始数据。
+	const getSearchProps = () => [props.root, props.gateway, props.switch, props.devices];
 
 	// 优化后的 switchType 函数
 	const switchType = (id) => {
-		// 遍历 searchProps 数组，使用 findItemById 函数查找 id
-		for (const prop of searchProps) {
+		// 遍历所有分组，使用 findItemById 函数查找 id
+		for (const prop of getSearchProps()) {
 			const item = findItemById(prop, id);
 			if (Object.keys(item).length > 0) { // 如果找到非空对象，则返回
 				return item;
@@ -363,8 +377,7 @@
 	 * 重新绘制的方法
 	 */
 	const resetDraw = () => {
-		let ctx = uni.createCanvasContext('myCanvas')
-		ctx.draw()
+		// 直接重新测量并重绘，旧帧会在 initDraw 末尾的 ctx.draw() 中被覆盖
 		init()
 	}
 

@@ -8,25 +8,23 @@
 
 <script setup>
 	import {
-		ref,
-		onMounted
+		ref
 	} from "vue";
 	import {
 		onLoad
 	} from "@dcloudio/uni-app";
 	import NetworkGplot from '../../components/NetworkGplot.vue'
-	import TopBar from '../../components/TopBar.vue'
-	const root = ref()
-	const edges = ref()
+	import { requireLogin } from '../../utils/auth.js'
+
 	const networkGplotRef = ref(null)
-	const deviceInfo =ref({})
-	
+	const deviceInfo = ref({})
+
 	const testfn = (e) => {
 		console.log("节点被点击：", e);
 	}
 
 	const onReset = () => {
-		networkGplotRef.value.resetDraw()
+		networkGplotRef.value?.resetDraw()
 	}
 
 	/**
@@ -39,7 +37,15 @@
 	}
 
 	onLoad((e) => {
-		deviceInfo.value = e
+		// 未登录时直接返回上一页，不渲染设备详情
+		if (!requireLogin('/pages/deviceDetail/deviceDetail')) return;
+
+		// onLoad 回调拿到的是页面参数，统一收敛为设备信息对象
+		deviceInfo.value = {
+			deviceId: e.deviceId,
+			deviceName: decodeURIComponent(e.deviceName || '设备详情'),
+			typeName: decodeURIComponent(e.typeName || '')
+		}
 	})
 </script>
 

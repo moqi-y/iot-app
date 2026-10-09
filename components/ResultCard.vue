@@ -21,7 +21,8 @@
 const props = defineProps({
 	device: {
 		type: Object,
-		default: () => {}
+		// 原为 () => {}，该函数返回 undefined 导致默认值失效，这里返回空对象
+		default: () => ({})
 	}
 })
 

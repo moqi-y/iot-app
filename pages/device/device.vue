@@ -32,9 +32,11 @@
 		<view class="switch-area">
 			<uni-segmented-control class="switch-control" :current="current" :values="items" @clickItem="onClickItem"
 				styleType="text" activeColor="#1a9bf0"></uni-segmented-control>
-			<view class="switch-content" :style="{ height: app_height * 0.5 + 'rpx' }">
+			<view class="switch-content" :style="{ height: switchAreaHeight + 'px' }">
 				<view class="content-list" v-show="current === 0">
-					<DeviceCard v-for="(item, index) in deviceList" :key="index" :device="item" @onTap="onTapDeviceCard"></DeviceCard>
+					<view class="empty-tip" v-if="deviceList.length === 0">暂无设备，点击上方「快速添加」</view>
+					<DeviceCard v-for="item in deviceList" :key="item.id" :device="item" @onTap="onTapDeviceCard"
+						@onMenu="onDeviceMenu"></DeviceCard>
 				</view>
 				<view class="content-list" v-show="current === 1">
 					<TerminalCard v-for="(item, index) in 3" :key="index" :device="item"></TerminalCard>
@@ -72,7 +74,14 @@ import DeviceCard from '../../components/DeviceCard.vue';
 import TerminalCard from '../../components/TerminalCard.vue';
 import NetCard from '../../components/NetCard.vue';
 import PopupCard from '../../components/PopupCard.vue';
+import {
+	onShow
+} from '@dcloudio/uni-app';
+import {
+	requireLogin
+} from '../../utils/auth.js';
 
+const DEVICE_KEY = 'deviceList'
 
 const popup = ref(null)
 
@@ -89,23 +98,34 @@ const deviceImages = ref([{
 }
 ])
 
-const deviceList = ref([
-	{
-		id:0,
-		typeName:"监控设备",
-		deviceName:"网络摄像头",
-		deviceStatus:"设备在线",
-		icon:"/static/icon/camera-five.svg"
-	},
-	{
-		id:2,
-		typeName:"移动设备",
-		deviceName:"网络摄像头",
-		deviceStatus:"设备在线",
-		icon:"/static/icon/camera-five.svg"
-	},
-	
-])
+/**
+ * 设备列表
+ * 使用本地缓存持久化，新增 / 删除后重新进入页面数据仍在。
+ */
+const deviceList = ref([])
+
+/** 读取本地设备列表 */
+const loadDevices = () => {
+	try {
+		const cached = uni.getStorageSync(DEVICE_KEY)
+		deviceList.value = Array.isArray(cached) ? cached : []
+	} catch (e) {
+		deviceList.value = []
+	}
+}
+
+/** 写入本地设备列表 */
+const saveDevices = () => {
+	try {
+		uni.setStorageSync(DEVICE_KEY, deviceList.value)
+	} catch (e) {
+		console.error('保存设备列表失败', e)
+	}
+}
+
+/** 生成不重复的设备 id */
+let idSeed = Date.now()
+const genId = () => ++idSeed
 // const menuItems = ref(['快速添加', '新手指南', '发现',]);
 const menuItems = ref([{
 	id: 1,
@@ -143,42 +163,155 @@ const onScan = () => {
 	// 只允许通过相机扫码
 	uni.scanCode({
 		onlyFromCamera: true,
-		success: function (res) {
-			console.log('条码类型：' + res.scanType);
-			console.log('条码内容：' + res.result);
+		success: (res) => {
+			// 兼容二维码内容为纯文本或 JSON 两种形态
+			const parsed = parseScanResult(res.result);
+			if (!parsed) {
+				uni.showModal({
+					title: '无法识别',
+					content: `该二维码不是有效的设备码：${res.result}`,
+					showCancel: false
+				});
+				return;
+			}
+
+			// 已存在则提示，避免重复添加
+			if (deviceList.value.some((d) => d.sn === parsed.sn)) {
+				uni.showToast({ title: '该设备已添加', icon: 'none' });
+				return;
+			}
+
 			uni.showModal({
 				title: '扫码成功',
-				content: `结果：${res.result},条码类型：${res.scanType}`,
-				success: function (res) {
-					if (res.confirm) {
-						console.log('用户点击确定');
-					} else if (res.cancel) {
-						console.log('用户点击取消');
+				content: `设备名称：${parsed.name}\n设备编号：${parsed.sn}`,
+				confirmText: '添加',
+				success: (modalRes) => {
+					if (modalRes.confirm) {
+						addDevice(parsed);
 					}
 				}
 			});
+		},
+		fail: (err) => {
+			// 用户主动取消扫码不提示错误
+			if (/cancel/i.test(err.errMsg || '')) return;
+			uni.showToast({ title: '扫码失败，请重试', icon: 'none' });
 		}
 	});
 }
 
 /**
+ * 解析扫码结果
+ * 支持纯文本（sn 或 sn,name）与 JSON 两种格式，解析失败返回 null。
+ */
+const parseScanResult = (raw) => {
+	if (!raw) return null;
+	const text = String(raw).trim();
+
+	if (text.startsWith('{')) {
+		try {
+			const obj = JSON.parse(text);
+			if (obj && obj.sn) {
+				return {
+					sn: String(obj.sn),
+					name: obj.name || obj.deviceName || '未知设备',
+					typeName: obj.typeName || '监控设备'
+				};
+			}
+		} catch (e) {
+			return null;
+		}
+		return null;
+	}
+
+	// 纯文本：支持 "sn" 或 "sn,name"
+	const [sn, name] = text.split(',');
+	if (!sn) return null;
+	return {
+		sn: sn.trim(),
+		name: (name || '扫码设备').trim(),
+		typeName: '监控设备'
+	};
+}
+
+/** 添加设备到列表 */
+const addDevice = (parsed) => {
+	deviceList.value.unshift({
+		id: genId(),
+		sn: parsed.sn,
+		typeName: parsed.typeName || '监控设备',
+		deviceName: parsed.name || '未知设备',
+		deviceStatus: '设备在线',
+		icon: '/static/icon/camera-five.svg'
+	});
+	saveDevices();
+	uni.showToast({ title: '添加成功', icon: 'success' });
+};
+
+/**
  * 点击快速添加按钮
  */
 const onMenuItem = (item) => {
-	console.log("item", item);
 	if (item.id === 1) {
-		// console.log("popup",popup.value.open());
-		popup.value.open()
+		popup.value?.open()
 	}
 }
 
 /**
+ * 设备卡片菜单：删除 / 编辑
+ * @param {{action: string, device: object}} payload
+ */
+const onDeviceMenu = ({ action, device }) => {
+	if (!device) return;
+
+	if (action === '删除') {
+		uni.showModal({
+			title: '删除设备',
+			content: `确定要删除「${device.deviceName}」吗？`,
+			confirmColor: '#e64340',
+			success: (res) => {
+				if (res.confirm) {
+					deviceList.value = deviceList.value.filter((d) => d.id !== device.id);
+					saveDevices();
+					uni.showToast({ title: '已删除', icon: 'none' });
+				}
+			}
+		});
+		return;
+	}
+
+	if (action === '编辑') {
+		uni.showModal({
+			title: '重命名设备',
+			editable: true,
+			placeholderText: '请输入新的设备名称',
+			content: device.deviceName,
+			success: (res) => {
+				if (!res.confirm) return;
+				const name = (res.content || '').trim();
+				if (!name) {
+					uni.showToast({ title: '名称不能为空', icon: 'none' });
+					return;
+				}
+				const target = deviceList.value.find((d) => d.id === device.id);
+				if (target) {
+					target.deviceName = name;
+					saveDevices();
+					uni.showToast({ title: '修改成功', icon: 'success' });
+				}
+			}
+		});
+	}
+};
+
+/**
  * 点击列表中的设备项
  */
-const onTapDeviceCard=(e)=>{
-	console.log("e",e);
+const onTapDeviceCard = (e) => {
 	uni.navigateTo({
-		url:`/pages/deviceDetail/deviceDetail?deviceId=${e.id}&typeName=${e.typeName}&deviceName=${e.deviceName}`
+		url: `/pages/deviceDetail/deviceDetail?deviceId=${encodeURIComponent(e.id)}` +
+			`&typeName=${encodeURIComponent(e.typeName || '')}` +
+			`&deviceName=${encodeURIComponent(e.deviceName || '')}`
 	})
 }
 
@@ -187,12 +320,13 @@ const onTapDeviceCard=(e)=>{
  * 点击卡片
  */
 const onTapCard = (item) => {
-	console.log("item", item);
 	if (item.id === 1) {
 		// 连接蓝牙
+		popup.value?.close()
 		onDeviceDetail('bluetoothLink')
 	} else if (item.id === 2) {
 		// 扫码
+		popup.value?.close()
 		onScan()
 	}
 }
@@ -207,14 +341,26 @@ const onDeviceDetail = (pathName) => {
 }
 
 
-// 获取手机可用高度
-let app_height = ref(0);
+// 切换区可用高度（px）
+// 注意：windowHeight 返回的是 px，此处不再做 rpx 换算，
+// 避免 px / rpx 单位混用导致高度计算错误。
+const switchAreaHeight = ref(0);
+
+// 页面每次显示都做登录校验，并加载本地设备数据
+// （tabBar 页面通过 switchTab 跳转不会重新触发 onLoad）
+onShow(() => {
+	if (requireLogin('/pages/device/device')) {
+		loadDevices();
+	}
+});
+
 onMounted(() => {
-	uni.getSystemInfo({
-		success: res => {
-			app_height.value = res.windowHeight * 2;
-		}
-	});
+	// getWindowInfo 为新 API，getSystemInfo 在新版本已废弃
+	const info = typeof uni.getWindowInfo === 'function'
+		? uni.getWindowInfo()
+		: uni.getSystemInfoSync();
+	// 预留顶部导航、菜单区与 tabBar 的空间
+	switchAreaHeight.value = Math.max((info.windowHeight || 0) * 0.5, 0);
 })
 </script>
 
@@ -243,14 +389,14 @@ page {
 	justify-content: space-between;
 	align-items: center;
 	background: linear-gradient(90deg, #1a9bf0, #1a5df0);
-	height: cale(70px + var(--status-bar-height));
-	width: 100%;
+	height: calc(70px + var(--status-bar-height));
 	border-radius: 10px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	width: 100%;
 	position: fixed;
 	top: 0px;
 	z-index: 99999;
+	box-sizing: border-box;
 	padding-top: var(--status-bar-height);
 }
 
@@ -396,6 +542,13 @@ page {
 	padding: 10px;
 	margin-bottom: 20px;
 	overflow-y: auto;
+}
+
+.empty-tip {
+	padding: 60rpx 0;
+	text-align: center;
+	font-size: 28rpx;
+	color: #999;
 }
 
 .info-item {

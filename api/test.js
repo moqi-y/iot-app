@@ -1,9 +1,6 @@
-import {request} from '../utils/request.js'
+import { get } from '../utils/request.js'
 
-export function getTest(data){
-	return request({
-		url:"/ping",
-		method:"get",
-		data:data
-	})
+/** 健康检查接口 */
+export function getTest(data) {
+	return get("/ping", data, { silent: true })
 }

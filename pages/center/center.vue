@@ -4,12 +4,15 @@
 			<TopBar :left={} :right={} center="个人中心"></TopBar>
 			<view class="info">
 				<view class="user">
-					<image src="/static/images/user.jpg" mode="aspectFill"></image>
-					<view class="name"><text>niew</text><text>ID: 9527</text></view>
+					<image :src="user.avatar || '/static/images/user.jpg'" mode="aspectFill"></image>
+					<view class="name">
+						<text>{{ user.nickName || '未登录' }}</text>
+						<text>ID: {{ user.userId || '--' }}</text>
+					</view>
 				</view>
-				<view class="btn">
-					<uni-icons type="notification" size="28" color="#1296db"></uni-icons>
-					消息中心
+				<view class="btn" @tap="onLogout">
+					<uni-icons type="redo" size="28" color="#FFFFFF"></uni-icons>
+					退出登录
 				</view>
 			</view>
 		</view>
@@ -69,8 +72,45 @@
 	</view>
 </template>
 <script setup>
+	import {
+		ref
+	} from 'vue'
+	import {
+		onShow
+	} from '@dcloudio/uni-app'
 	import TopBar from '../../components/TopBar.vue'
+	import {
+		getUserInfo,
+		logout,
+		requireLogin
+	} from '../../utils/auth.js'
 
+	// 用户信息来自登录态，不再使用写死的假数据
+	const user = ref({})
+
+	const loadUserInfo = () => {
+		user.value = getUserInfo() || {}
+	}
+
+	onShow(() => {
+		// tabBar 页面通过 switchTab 跳转，不会触发 onLoad，需用 onShow 兜底
+		if (requireLogin('/pages/center/center')) {
+			loadUserInfo()
+		}
+	})
+
+	/** 退出登录 */
+	const onLogout = () => {
+		uni.showModal({
+			title: '提示',
+			content: '确定要退出登录吗？',
+			success: (res) => {
+				if (res.confirm) {
+					logout()
+				}
+			}
+		})
+	}
 </script>
 
 <style lang="scss" scoped>
@@ -139,7 +179,7 @@ page {
 
 .menu-box {
 	position: absolute;
-	top: cale(300rpx + var(--status-bar-height));
+	top: calc(300rpx + var(--status-bar-height));
 	width: 100%;
 	margin-bottom: 120rpx;
 }

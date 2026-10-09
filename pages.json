@@ -28,7 +28,7 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "首页"
 			}
 		},
 		{
@@ -97,7 +97,7 @@
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
+		"navigationBarTitleText": "IotApp",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8",
 		"transparentTitle":"auto",
@@ -110,9 +110,9 @@
 		"current": 0, //当前激活的模式(list 的索引项)
 		"list": [
 			{
-				"name": "", //模式名称
-				"path": "pages/test/test", //启动页面，必选
-				"query": "" //启动参数，在页面的onLoad函数里面得到
+				"name": "设备详情", //模式名称
+				"path": "pages/deviceDetail/deviceDetail", //启动页面，必选
+				"query": "deviceId=1&typeName=监控设备&deviceName=网络摄像头" //启动参数，在页面的onLoad函数里面得到
 			}
 		]
 	}

@@ -1,6 +1,6 @@
 <template>
 	<view class="card">
-		<view class="card-content" @tap="$emit('onTap',device)">
+		<view class="card-content" @tap="emits('onTap', device)">
 			<view class="dievice-icon">
 				<image class="device-icon-img" :src="device.icon" @error="imageError"></image>
 			</view>
@@ -29,8 +29,14 @@
 	} from 'vue'
 
 	const props = defineProps({
-		device: {}
+		device: {
+			type: Object,
+			default: () => ({})
+		}
 	})
+
+	/** 将删除 / 编辑动作抛给父组件处理 */
+	const emits = defineEmits(['onTap', 'onMenu'])
 
 	const menu = ref([{
 			iconClass: 'delete',
@@ -41,17 +47,19 @@
 			content: '编辑'
 		}
 	])
-	
-	const imageError = (e) => {
-		console.log("图片加载失败", e);
+
+	const imageError = () => {
+		// 图片加载失败时无需刷屏，仅保留占位
 	}
-	
-	const link=(e)=>{
-		console.log("点击了",e,menu.value[e.index]);
+
+	const link = (e) => {
+		const action = menu.value[e.index]
+		if (!action) return
+		emits('onMenu', { action: action.content, device: props.device })
 	}
-	
-	const handleChange=(e)=>{
-		console.log("change:",e);
+
+	const handleChange = () => {
+		// 菜单展开/收起，无需额外处理
 	}
 </script>
 
